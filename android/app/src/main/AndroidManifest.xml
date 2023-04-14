@@ -2,6 +2,7 @@
     package="com.example.puzzlerize">
         <!-- 1. Permission -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- 2. To overcome bind to recognition service failed issue -->
     <queries>
