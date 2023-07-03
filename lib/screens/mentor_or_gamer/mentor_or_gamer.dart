@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Test extends StatefulWidget {
-  const Test({super.key});
+class MentorOrGamer extends StatefulWidget {
+  const MentorOrGamer({super.key});
 
   @override
-  State<Test> createState() => _TestState();
+  State<MentorOrGamer> createState() => _MentorOrGamerState();
 }
 
-class _TestState extends State<Test> {
+class _MentorOrGamerState extends State<MentorOrGamer> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,6 @@ class _TestState extends State<Test> {
                 "Are you Gamer or Mentor ?",
                 style: TextStyle(
                   fontSize: 18,
-                  
                 ),
               ),
             ),

@@ -3,6 +3,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:get/get.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:puzzlerize/screens/pin/pin.dart';
+import 'package:puzzlerize/screens/mentor_or_gamer/mentor_or_gamer.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +36,7 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
     final TextToSpeech tts = new TextToSpeech();
     tts.speak();
     _speech = stt.SpeechToText();
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 3), () {
       _listen();
     });
   }
@@ -72,7 +74,17 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
       _speech.listen(
         onResult: (val) => setState(() {
           _text = val.recognizedWords;
-          print(_text);
+          if (_text == 'Yes') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => PINScreen()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MentorOrGamer()),
+            );
+          }
         }),
       );
     } else {
