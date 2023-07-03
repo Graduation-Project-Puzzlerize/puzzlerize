@@ -10,7 +10,6 @@ void main() => runApp(MaterialApp(
       routes: {
         '/': (context) => MyApp(),
         '/main': (context) => WelcomeScreen(),
-        // '/main': (context) => LoginScreen(),
       },
     ));
 
@@ -26,7 +25,6 @@ class _MyAppState extends State<MyApp> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
-        // MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     });
   }
@@ -40,41 +38,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-
-
-// import 'package:application_2/Answer.dart';
-// import 'package:application_2/PIN.dart';
-// import 'package:application_2/Question.dart';
-// import 'package:application_2/profile.dart';
-// import 'package:application_2/test.dart';
-// import 'package:application_2/logIn.dart';
-// import 'package:application_2/SignUp.dart';
-
-// import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home:LoginScreen(),
-//     );
-//   }
-// }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-       
-//       ),
-//       body: Center(
-//         child: Column(
-         
-//       ),
-//     ));
-//   }
