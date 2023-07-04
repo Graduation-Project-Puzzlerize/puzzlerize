@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -40,7 +42,12 @@ class _PINScreenState extends State<PINScreen> {
                 child: Container(
                   width: 250,
                   height: 50,
-                  child: Text(""),
+                  child: TextField(
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: '',
+                    ),
+                  ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
                       color: Color.fromARGB(255, 222, 212, 219)),
