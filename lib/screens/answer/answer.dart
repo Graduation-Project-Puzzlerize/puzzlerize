@@ -12,8 +12,6 @@ class _AnswerScreenState extends State<AnswerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldkey,
-        appBar: AppBar(),
-        drawer: Drawer(),
         body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(

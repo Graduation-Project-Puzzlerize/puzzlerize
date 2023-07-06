@@ -3,8 +3,6 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:puzzlerize/screens/welcome_screen/welcome_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-// import 'package:puzzlerize/screens/login/login.dart';
-
 void main() => runApp(MaterialApp(
       initialRoute: '/',
       routes: {

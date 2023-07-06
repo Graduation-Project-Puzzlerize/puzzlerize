@@ -12,8 +12,6 @@ class _OptionsScreenState extends State<Options> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldkey,
-        appBar: AppBar(),
-        drawer: Drawer(),
         body: Container(
           child: Container(
             color: Colors.blueGrey[50],

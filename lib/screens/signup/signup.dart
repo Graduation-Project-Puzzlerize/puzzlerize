@@ -12,8 +12,6 @@ class _SignUpScreenState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldkey,
-      appBar: AppBar(),
-      drawer: Drawer(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -141,3 +139,173 @@ class _SignUpScreenState extends State<SignUp> {
     );
   }
 }
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
+
+// class signup extends StatelessWidget {
+//   const signup({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         body: SizedBox(
+//           height: double.infinity,
+//           width: double.infinity,
+//           child: Stack(
+//             children: [
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     SizedBox(
+//                       height: 23,
+//                     ),
+//                     Image.asset(
+//                       "assets/images/Capture.PNG",
+//                       width: 500,
+//                     ),
+//                     SizedBox(
+//                       height: 15,
+//                     ),
+//                     Image.asset(
+//                       "assets/images/Capture2.PNG",
+//                       width: 250,
+//                     ),
+//                     SizedBox(
+//                       height: 20,
+//                     ),
+//                     Text(
+//                       "Sign Up",
+//                       style:
+//                           TextStyle(fontSize: 31, fontWeight: FontWeight.w800),
+//                     ),
+//                     SizedBox(
+//                       height: 20,
+//                     ),
+//                     Container(
+//                       decoration: BoxDecoration(
+//                        // color: Colors.purple[100],
+//                         //borderRadius :
+                      
+//                         borderRadius: BorderRadius.circular(3),
+//                         border: Border.all(
+//                     color: Color.fromARGB(255, 109, 16, 126),
+//                     width: 1,
+//                   )
+//                       ),
+//                       width: 266,
+//                       padding: EdgeInsets.symmetric(horizontal: 16),
+//                       child: TextField(
+//                         decoration: InputDecoration(
+//                             icon: Icon(
+//                               Icons.person_pin_sharp,
+//                               color: Colors.purple[800],
+//                             ),
+//                             hintText: "Name :",
+//                             border: InputBorder.none),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 17,
+//                     ),
+
+//                     ///## onPressed:(){Navigator.pushNamed(context, "")},
+//                     Container(
+//                       decoration: BoxDecoration(
+//                         ///color: Colors.purple[100],
+//                         borderRadius: BorderRadius.circular(3),
+//                         border: Border.all(
+//                     color: Color.fromARGB(255, 109, 16, 126),
+//                     width: 1,
+//                   )
+//                       ),
+//                       width: 266,
+//                       padding: EdgeInsets.symmetric(horizontal: 16),
+//                       child: TextField(
+//                         decoration: InputDecoration(
+//                             icon: Icon(
+//                               Icons.email,
+//                               color: Colors.purple[800],
+//                             ),
+//                             hintText: "Email :",
+//                             border: InputBorder.none),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 17,
+//                     ),
+//                     Container(
+//                       decoration: BoxDecoration(
+//                         //color: Colors.purple[100],
+//                         borderRadius: BorderRadius.circular(3),
+//                         border: Border.all(
+//                     color: Color.fromARGB(255, 109, 16, 126),
+//                     width: 1,
+//                   )
+//                       ),
+//                       width: 266,
+//                       padding: EdgeInsets.symmetric(horizontal: 16),
+//                       child: TextField(
+//                         obscureText: true,
+//                         decoration: InputDecoration(
+//                             suffix: Icon(
+//                               Icons.visibility,
+//                               color: Colors.purple[900],
+//                             ),
+//                             icon: Icon(
+//                               Icons.lock,
+//                               color: Colors.purple[800],
+//                               size: 19,
+//                             ),
+//                             hintText: "Password :",
+                            
+//                             border: InputBorder.none),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 17,
+//                     ),
+//                     ElevatedButton(
+//                       child: Text(
+//                         "Sign Up",
+//                         style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.w600),
+//                       ),
+//                       style: ButtonStyle(
+//                           backgroundColor:
+//                               MaterialStateProperty.all(Colors.purple[800]),
+//                           padding: MaterialStateProperty.all(
+//                               EdgeInsets.symmetric(
+//                                   horizontal: 100, vertical: 12)),
+//                           shape: MaterialStateProperty.all(
+//                               RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(3)))),
+//                       onPressed: () {},
+//                     ),
+//                     SizedBox(
+//                       height: 20,
+//                     ),
+//                     Row(
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       children: [
+//                         Text("Already have an account ?"),
+//                         Text("Log in"),
+//                       ],
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

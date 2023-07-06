@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:puzzlerize/screens/signup/signup.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,12 +9,46 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void performLogin() {
+    // Simulated login operation with hardcoded email and password values
+    String enteredEmail = emailController.text;
+    String enteredPassword = passwordController.text;
+
+    String validEmail = 'aaa@aaa.com';
+    String validPassword = 'aaa123';
+
+    if (enteredEmail == validEmail && enteredPassword == validPassword) {
+      // Email and password are correct
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login successful'),
+        ),
+      );
+    } else {
+      // Email or password is incorrect
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Incorrect email or password'),
+        ),
+      );
+    }
+  }
+
+  void navigateToSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUp()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldkey,
-      appBar: AppBar(),
-      drawer: Drawer(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -32,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
+                controller: emailController,
                 decoration: InputDecoration(
                   enabled: true,
                   labelText: " Email ",
@@ -59,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFormField(
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
+                controller: passwordController,
                 decoration: InputDecoration(
                   enabled: true,
                   labelText: " Password ",
@@ -84,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: performLogin, // Call the performLogin method
                   child: Text(
                     "Log In",
                     style: TextStyle(fontSize: 20),
@@ -99,10 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
-              SizedBox(
-                height: 10,
-              ),
-              Text("Don't have an account ? ")
+              SizedBox(height: 10),
+              Text("Already have an account ? ")
             ],
           ),
         ),
