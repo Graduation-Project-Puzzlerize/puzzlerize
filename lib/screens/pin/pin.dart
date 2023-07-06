@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/visual_impairment_q/visual_impairment_q.dart';
+import 'package:puzzlerize/screens/profile/profile.dart';
 
 class PINScreen extends StatefulWidget {
   @override
@@ -16,6 +17,13 @@ class _PINScreenState extends State<PINScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => VisualImpairmentQ()),
+    );
+  }
+
+  void navigateToProfileScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileScreen()),
     );
   }
 
@@ -52,6 +60,10 @@ class _PINScreenState extends State<PINScreen> {
                     child: new Column(children: [
                       Container(
                           child: TextField(
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (value) {
+                              navigateToProfileScreen();
+                            },
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: '',
@@ -60,6 +72,18 @@ class _PINScreenState extends State<PINScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(18),
                               color: Color.fromARGB(255, 222, 212, 219))),
+                      ElevatedButton(
+                        onPressed: navigateToProfileScreen,
+                        child: Text("Next"),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 136, 101, 142),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Color.fromARGB(255, 79, 8, 83)),
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                        ),
+                      ),
                       ElevatedButton(
                         onPressed: navigateToVisualImpairmentQScreen,
                         child: Text("Back"),

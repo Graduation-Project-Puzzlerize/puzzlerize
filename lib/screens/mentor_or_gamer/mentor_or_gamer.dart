@@ -106,15 +106,6 @@ class _MentorOrGamerState extends State<MentorOrGamer> {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 60,
-              child: Text(
-                "Ready to Start!",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
             )
           ],
         ),
