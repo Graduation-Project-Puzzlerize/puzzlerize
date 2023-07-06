@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/visual_impairment_q/visual_impairment_q.dart';
 import 'package:puzzlerize/screens/profile/profile.dart';
+import 'package:puzzlerize/services/database.dart';
 
 class PINScreen extends StatefulWidget {
   @override
@@ -12,6 +10,8 @@ class PINScreen extends StatefulWidget {
 
 class _PINScreenState extends State<PINScreen> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  String pin = '';
+  TextEditingController pinController = TextEditingController();
 
   void navigateToVisualImpairmentQScreen() {
     Navigator.push(
@@ -21,10 +21,17 @@ class _PINScreenState extends State<PINScreen> {
   }
 
   void navigateToProfileScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ProfileScreen()),
-    );
+    // await DatabaseMethods().isPINValid(pinController.text).docs.forEach((doc) {
+    //   print(doc["pin"]);
+    // });
+    // if (DatabaseMethods().isPINValid(pinController.text)) {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => ProfileScreen()),
+    //   );
+    // } else {
+    DatabaseMethods().isPINValid(pinController.text);
+    // }
   }
 
   @override
@@ -60,6 +67,7 @@ class _PINScreenState extends State<PINScreen> {
                     child: new Column(children: [
                       Container(
                           child: TextField(
+                            controller: pinController,
                             textInputAction: TextInputAction.search,
                             onSubmitted: (value) {
                               navigateToProfileScreen();
