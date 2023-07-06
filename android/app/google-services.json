@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "106344653984",
+    "project_id": "puzzlerize-e309d",
+    "storage_bucket": "puzzlerize-e309d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106344653984:android:525c7161b1aa4ef92f15c5",
+        "android_client_info": {
+          "package_name": "com.example.puzzlerize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106344653984-9rtbfdj1p8jopg7kf65d3bvusdmiiuu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHVmzDYA9YU1lU27Mpl_zwDROdcYWw5CY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106344653984-9rtbfdj1p8jopg7kf65d3bvusdmiiuu5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

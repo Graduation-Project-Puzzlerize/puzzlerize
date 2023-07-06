@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:get/get.dart';
 import 'package:puzzlerize/screens/pin/pin.dart';
 import 'package:puzzlerize/screens/mentor_or_gamer/mentor_or_gamer.dart';
 
