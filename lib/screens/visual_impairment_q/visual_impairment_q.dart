@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:get/get.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:puzzlerize/screens/pin/pin.dart';
 import 'package:puzzlerize/screens/mentor_or_gamer/mentor_or_gamer.dart';
 
@@ -47,24 +46,62 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/visual_impairment_q.png"),
-                  fit: BoxFit.cover),
-            ),
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(30, 155, 30, 0),
-              child: Text(_text),
-            ),
-          )
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/visual_impairment_q.png"),
+                    fit: BoxFit.cover),
+              ),
+              child: new Row(
+                children: [
+                  new GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => PINScreen()),
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.fromLTRB(100, 155, 30, 0),
+                        child: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage("assets/icons/yes.jpg"),
+                              )),
+                        ),
+                      )),
+                  new GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MentorOrGamer()),
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.fromLTRB(30, 155, 30, 0),
+                        child: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: AssetImage("assets/icons/no.jpg"),
+                              )),
+                        ),
+                      ))
+                ],
+              ))
         ],
       ),
     );
   }
 
   void _listen() async {
-    // if (!_isListening) {
     bool available = await _speech.initialize(
       onStatus: (val) => print('onStatus: $val'),
       onError: (val) => print('onError: $val'),
@@ -74,12 +111,14 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
       _speech.listen(
         onResult: (val) => setState(() {
           _text = val.recognizedWords;
-          if (_text == 'Yes') {
+          print(_text);
+          if (_text.toLowerCase() == 'yes') {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => PINScreen()),
             );
-          } else {
+          }
+          if (_text.toLowerCase() == 'no') {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => MentorOrGamer()),
