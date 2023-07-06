@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:puzzlerize/screens/pin/pin.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -8,6 +9,13 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  void navigateToPINScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PINScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: TextField(
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
-                    hintText: "LOLO",
+                    hintText: "Nickname",
                     enabled: true,
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -48,7 +56,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color.fromARGB(255, 227, 221, 228))),
                   ),
                 ),
-              )
+              ),
+              ElevatedButton(
+                onPressed: navigateToPINScreen,
+                child: Text("Back"),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 136, 101, 142),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Color.fromARGB(255, 79, 8, 83)),
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                ),
+              ),
             ]),
           )),
     );
