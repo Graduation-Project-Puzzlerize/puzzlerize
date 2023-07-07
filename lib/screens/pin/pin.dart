@@ -11,6 +11,7 @@ class PINScreen extends StatefulWidget {
 class _PINScreenState extends State<PINScreen> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   String pin = '';
+  bool pinIsValidVisi = false;
   TextEditingController pinController = TextEditingController();
 
   void navigateToVisualImpairmentQScreen() {
@@ -20,18 +21,25 @@ class _PINScreenState extends State<PINScreen> {
     );
   }
 
-  void navigateToProfileScreen() {
-    // await DatabaseMethods().isPINValid(pinController.text).docs.forEach((doc) {
-    //   print(doc["pin"]);
-    // });
-    // if (DatabaseMethods().isPINValid(pinController.text)) {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => ProfileScreen()),
-    //   );
-    // } else {
-    DatabaseMethods().isPINValid(pinController.text);
-    // }
+  void navigateToProfileScreen() async {
+    setState(
+      () {
+        pinIsValidVisi = false;
+      },
+    );
+    if (await DatabaseMethods().isPINValid(pinController.text)) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
+      );
+    } else {
+      print("helllllllllllllllo");
+      setState(
+        () {
+          pinIsValidVisi = true;
+        },
+      );
+    }
   }
 
   @override
@@ -105,6 +113,17 @@ class _PINScreenState extends State<PINScreen> {
                         ),
                       ),
                     ])),
+              ),
+              Visibility(
+                child: Text(
+                  "The PIN is invalid",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 255, 0, 0),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                visible: pinIsValidVisi,
               ),
             ]),
           )),

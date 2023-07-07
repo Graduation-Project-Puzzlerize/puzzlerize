@@ -45,6 +45,7 @@ dependencies:
   firebase_core: ^2.14.0
   cloud_firestore: ^4.8.2
   js_interop: ^0.0.1
+  firebase_database: ^10.2.3
 
 
 dev_dependencies:
