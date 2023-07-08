@@ -133,8 +133,67 @@ class DatabaseMethods {
         .collection('responses')
         .where('optionNum', isNotEqualTo: writeAnswer)
         .get();
-    print(querySnapshot.docs.length);
 
     return querySnapshot.docs.length;
+  }
+
+  Future<String> getQuestion(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+    return querySnapshot.docs[0]['question'];
+  }
+
+  Future<String> getOpt1(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+    return querySnapshot.docs[0]['choices'][0];
+  }
+
+  Future<String> getOpt2(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+    return querySnapshot.docs[0]['choices'][1];
+  }
+
+  Future<String> getOpt3(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+    return querySnapshot.docs[0]['choices'][2];
+  }
+
+  Future<String> getOpt4(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+    return querySnapshot.docs[0]['choices'][3];
+  }
+
+  Future<void> deleteQ(String mentor_id) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentor_id)
+        .get();
+
+    String question_id = querySnapshot.docs[0].id;
+
+    FirebaseFirestore.instance
+        .collection('questions')
+        .doc(question_id)
+        .delete();
   }
 }

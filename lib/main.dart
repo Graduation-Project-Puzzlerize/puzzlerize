@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/welcome_screen/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:puzzlerize/screens/listen/listen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,7 @@ Future<void> main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => MyApp(),
-      '/main': (context) => WelcomeScreen(),
+      '/main': (context) => ListenPage(mentor_id: 'll'),
     },
   ));
 }
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+        MaterialPageRoute(builder: (context) => ListenPage(mentor_id: 'll')),
       );
     });
   }

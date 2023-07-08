@@ -108,9 +108,9 @@ class _OptionsScreenState extends State<Options> {
                       height: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 250, 238,
-                              132), // Set desired background color
-                        ),
+                            primary: Color.fromARGB(255, 255, 174,
+                                0) // Set desired background color
+                            ),
                         onPressed: () {
                           answer = 4;
                           naivigateToSubResult();
