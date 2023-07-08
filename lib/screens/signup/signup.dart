@@ -176,7 +176,7 @@ class _SignUpScreenState extends State<SignUp> {
               ),
               SizedBox(height: 10),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: performSignUp,
                   child: Text(
                     "Sign Up",
                     style: TextStyle(fontSize: 20),
