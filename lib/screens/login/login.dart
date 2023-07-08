@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:puzzlerize/screens/listen/listen.dart';
+import 'package:puzzlerize/screens/questionform/questionform.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
 import 'package:puzzlerize/screens/my_games/my_games.dart';
 import 'package:puzzlerize/screens/user_data/user_data.dart';
@@ -27,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         QuerySnapshot<
             Map<String,
                 dynamic>> querySnapshot = await FirebaseFirestore.instance
-            .collection('users')
+            .collection('mentors')
             .where('email', isEqualTo: enteredEmail)
             .where('password', isEqualTo: enteredPassword)
             .get(); //retrieve the documents that match the specified filters
@@ -40,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
 
-          // Navigate to the UserData screen and pass the retrieved user data
+          // Navigate to the mygame screen and pass the retrieved user data
           Navigator.push(
             context,
             MaterialPageRoute(

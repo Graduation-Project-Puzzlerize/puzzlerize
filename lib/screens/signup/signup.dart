@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUp> {
         if (isValidEmail(email)) {
           // Save the user's information to Firestore
           try {
-            await FirebaseFirestore.instance.collection('users').add({
+            await FirebaseFirestore.instance.collection('mentors').add({
               'name': name,
               'email': email,
               'password': password,
@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUp> {
   Future<bool> isEmailUsed(String email) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
         .instance
-        .collection('users')
+        .collection('mentors')
         .where('email', isEqualTo: email)
         .get();
 

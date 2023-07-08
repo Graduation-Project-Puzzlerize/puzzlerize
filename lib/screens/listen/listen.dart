@@ -1,74 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:puzzlerize/screens/question/question.dart';
 
-class listen extends StatelessWidget {
-  const listen({Key? key}) : super(key: key);
+class ListenPage extends StatefulWidget {
+  @override
+  _ListenPageState createState() => _ListenPageState();
+}
+
+class _ListenPageState extends State<ListenPage> {
+  final FlutterTts flutterTts = FlutterTts();
+  bool isSpeaking = false;
+
+  @override
+  void initState() {
+    super.initState();
+    speakMessage();
+  }
+
+  void speakMessage() async {
+    setState(() {
+      isSpeaking = true;
+    });
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1.0);
+    await flutterTts.speak("Get ready, listen carefully to the questions");
+    setState(() {
+      isSpeaking = false;
+    });
+  }
+
+  void repeatMessage() {
+    if (!isSpeaking) {
+      speakMessage();
+    }
+  }
+
+  void navigateToQuestionScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => QuestionScreen()),
+    );
+  }
+
+  @override
+  void dispose() {
+    flutterTts.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                  top: 0,
-                  right: -5,
-                  child: Image.asset(
-                    "assets/images/lis_top2-r.png",
-                    height: 110,
-                    width: 210,
-                  )),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 200,
-                    width: 100,
-                  ),
-                  Image.asset(
-                    "assets/images/listen_img-r2.png",
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 55.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Get ready, listen \ncarefully to \nthe questions\n\n",
-                          style: TextStyle(
-                            fontSize: 32,
-                            //  fontFamily: 'Courier New',
-                            color: Color.fromARGB(255, 10, 64, 111),
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.0,
-                            height: 1.2,
-                          ),
-                        ),
-                        Icon(
-                          Icons.volume_up,
-                          size: 40,
-                          color: Color.fromARGB(255, 156, 35, 232),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Image.asset(
-                    "assets/images/lis_bot2-r.png",
-                    height: 100,
-                  )),
-            ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/listen.jpeg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
           ),
-        ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            child: GestureDetector(
+              onTap: navigateToQuestionScreen,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(8),
+                child: Icon(Icons.arrow_forward, size: 20),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: GestureDetector(
+              onTap: repeatMessage,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(8),
+                child: Icon(Icons.replay, size: 20),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -2,52 +2,57 @@ import 'package:flutter/material.dart';
 
 class myGames extends StatelessWidget {
   const myGames({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
             SizedBox(
-              //width: ,
-              height: 80,
+              height: screenHeight * 0.05,
             ),
             Text(
               "My Puzzlerize Game",
               style: TextStyle(
-                  fontSize: 29,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Times New Roman'),
+                fontSize: screenWidth * 0.07,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Times New Roman',
+              ),
             ),
             SizedBox(
-              //width: ,
-              height: 30,
+              height: screenHeight * 0.02,
             ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.05,
+                  ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 106, 27, 154),
                     ),
                     child: SizedBox(
-                      width: 160,
-                      height: 160,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       child: Stack(
                         children: [
                           Image.asset(
                             "assets/images/puzz.PNG",
-                            width: 250,
+                            width: screenWidth * 0.6,
                           ),
                           Positioned(
-                            bottom: 3.0, // Adjust the positioning as needed
-                            left: 7.0, // Adjust the positioning as needed
+                            bottom: screenHeight * 0.003,
+                            left: screenWidth * 0.015,
                             child: Text(
                               'Four Team',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14.0,
+                                fontSize: screenWidth * 0.036,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -58,32 +63,33 @@ class myGames extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 50,
-                  height: 30,
+                  width: screenWidth * 0.07,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.05,
+                  ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 106, 27, 154),
                     ),
                     child: SizedBox(
-                      width: 160,
-                      height: 160,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       child: Stack(
                         children: [
                           Image.asset(
                             "assets/images/puzz.PNG",
-                            width: 250,
+                            width: screenWidth * 0.6,
                           ),
                           Positioned(
-                            bottom: 3.0, // Adjust the positioning as needed
-                            left: 7.0, // Adjust the positioning as needed
+                            bottom: screenHeight * 0.003,
+                            left: screenWidth * 0.015,
                             child: Text(
                               'Engineers',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14.0,
+                                fontSize: screenWidth * 0.036,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -96,34 +102,35 @@ class myGames extends StatelessWidget {
               ],
             ),
             SizedBox(
-              // width: 50,
-              height: 40,
+              height: screenHeight * 0.04,
             ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.05,
+                  ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 106, 27, 154),
                     ),
                     child: SizedBox(
-                      width: 160,
-                      height: 160,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       child: Stack(
                         children: [
                           Image.asset(
                             "assets/images/puzz.PNG",
-                            width: 250,
+                            width: screenWidth * 0.6,
                           ),
                           Positioned(
-                            bottom: 3.0, // Adjust the positioning as needed
-                            left: 7.0, // Adjust the positioning as needed
+                            bottom: screenHeight * 0.003,
+                            left: screenWidth * 0.015,
                             child: Text(
                               'Math Team',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14.0,
+                                fontSize: screenWidth * 0.036,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -134,32 +141,33 @@ class myGames extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 50,
-                  height: 30,
+                  width: screenWidth * 0.07,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.05,
+                  ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 106, 27, 154),
                     ),
                     child: SizedBox(
-                      width: 160,
-                      height: 160,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       child: Stack(
                         children: [
                           Image.asset(
                             "assets/images/puzz.PNG",
-                            width: 250,
+                            width: screenWidth * 0.6,
                           ),
                           Positioned(
-                            bottom: 3.0, // Adjust the positioning as needed
-                            left: 7.0, // Adjust the positioning as needed
+                            bottom: screenHeight * 0.003,
+                            left: screenWidth * 0.015,
                             child: Text(
                               'Programmers',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14.0,
+                                fontSize: screenWidth * 0.036,
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -172,30 +180,38 @@ class myGames extends StatelessWidget {
               ],
             ),
             SizedBox(
-              width: 50,
-              height: 80,
+              height: screenHeight * 0.07,
             ),
             ElevatedButton(
               child: Text(
                 "CREATE NEW \n PUZZILIRZE",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: screenWidth * 0.043,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: 3.0,
+                  letterSpacing: screenWidth * 0.01,
                   height: 1.5,
                 ),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 176, 122, 211)),
+                  Color.fromARGB(255, 176, 122, 211),
+                ),
                 padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 70, vertical: 28)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(
-                      color: Color.fromARGB(255, 106, 27, 154), width: 3.0),
-                )),
+                  EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.23,
+                    vertical: screenHeight * 0.035,
+                  ),
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.05),
+                    side: BorderSide(
+                      color: Color.fromARGB(255, 106, 27, 154),
+                      width: screenWidth * 0.015,
+                    ),
+                  ),
+                ),
               ),
               onPressed: () {},
             ),
