@@ -7,7 +7,7 @@ class DatabaseMethods {
         .collection("rounds")
         .where("pin", isEqualTo: pin)
         .get();
-    print(result.docs.isNotEmpty);
+    print('wwwwwwwwwwwwwwwwww');
     return result.docs.isNotEmpty;
   }
 }
