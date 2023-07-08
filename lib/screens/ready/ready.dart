@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:puzzlerize/screens/options/options.dart';
 
-class ready extends StatelessWidget {
-  const ready({Key? key}) : super(key: key);
+class ready extends StatefulWidget {
+  @override
+  _readyScreenState createState() => _readyScreenState();
+}
+
+class _readyScreenState extends State<ready> {
+  final TextToSpeech tts = new TextToSpeech();
+
+  void initState() {
+    super.initState();
+    tts.readySpeak();
+
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Options()),
+      );
+    });
+  }
+
+  // const ready({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,5 +64,20 @@ class NumberThreeAnimation extends StatelessWidget {
       'assets/images/newScene(3).json',
       repeat: false,
     );
+  }
+}
+
+class TextToSpeech extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
+
+  readySpeak() {
+    flutterTts.setLanguage("en-US");
+    flutterTts.setPitch(1); //0.5 to 1.5
+    flutterTts.speak("Are you ready? 3, 2, 1");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
