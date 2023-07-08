@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/login/login.dart';
-import 'package:puzzlerize/screens/user_data/user_data.dart';
-import 'package:flutter/painting.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _SignUpScreenState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void performSignUp() {
+  Future<void> performSignUp() async {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
@@ -24,20 +23,33 @@ class _SignUpScreenState extends State<SignUp> {
     // Check if the password length is 8 or more characters
     if (password.length >= 8) {
       // Check if the email is not already used
-      if (!isEmailUsed(email)) {
+      if (!await isEmailUsed(email)) {
         // Check if the email is in a valid format
         if (isValidEmail(email)) {
-          // Save the user's information and show a success message
-          saveUser(name, email, password);
+          // Save the user's information to Firestore
+          try {
+            await FirebaseFirestore.instance.collection('users').add({
+              'name': name,
+              'email': email,
+              'password': password,
+            });
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Sign up successful'),
-            ),
-          );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Sign up successful'),
+              ),
+            );
 
-          // Navigate to the login screen
-          navigateToLogin();
+            // Navigate to the login screen
+            navigateToLogin();
+          } catch (error) {
+            print('Error: $error');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('An error occurred. Please try again.'),
+              ),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -61,16 +73,14 @@ class _SignUpScreenState extends State<SignUp> {
     }
   }
 
-  bool isEmailUsed(String email) {
-    return usedEmails.any((user) => user['email'] == email);
-  }
+  Future<bool> isEmailUsed(String email) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
 
-  void saveUser(String name, String email, String password) {
-    usedEmails.add({
-      'name': name,
-      'email': email,
-      'password': password,
-    });
+    return querySnapshot.docs.isNotEmpty;
   }
 
   void navigateToLogin() {
@@ -162,7 +172,6 @@ class _SignUpScreenState extends State<SignUp> {
               SizedBox(
                 height: 10,
               ),
-              // add some space between the text fields
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
@@ -208,7 +217,7 @@ class _SignUpScreenState extends State<SignUp> {
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
               SizedBox(height: 10),
-              Text("alrady have an account?"),
+              Text("Already have an account?"),
               GestureDetector(
                 onTap: navigateToLogin,
                 child: Text(
