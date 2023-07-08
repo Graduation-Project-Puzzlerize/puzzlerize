@@ -196,7 +196,7 @@ class _SignUpScreenState extends State<SignUp> {
               GestureDetector(
                 onTap: navigateToLogin,
                 child: Text(
-                  "Lof In",
+                  "Log In",
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 20,
