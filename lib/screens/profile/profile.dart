@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/pin/pin.dart';
 import 'package:puzzlerize/screens/ready/ready.dart';
+import 'dart:math';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -8,6 +9,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var avas = [
+    'assets/images/ava1.PNG',
+    'assets/images/ava2.PNG',
+    'assets/images/ava3.PNG',
+    'assets/images/ava4.PNG',
+    'assets/images/ava5.PNG'
+  ];
+  int randAVA = Random().nextInt(5);
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   void navigateToPINScreen() {
     Navigator.push(
@@ -32,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CircleAvatar(
             foregroundColor: Color(0),
-            backgroundImage: AssetImage('assets/images/ava.jpg'),
+            backgroundImage: AssetImage(avas[randAVA]),
             radius: 70,
           ),
           SizedBox(

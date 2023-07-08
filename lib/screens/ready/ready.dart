@@ -17,7 +17,7 @@ class ready extends StatelessWidget {
                 height: 80,
               ),
               Image.asset(
-                "assets/images/Capture3.PNG",
+                "assets/images/are_you_ready.PNG",
                 width: 500,
               ),
               SizedBox(
