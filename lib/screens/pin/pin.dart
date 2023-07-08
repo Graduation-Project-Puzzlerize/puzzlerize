@@ -40,6 +40,9 @@ class _PINScreenState extends State<PINScreen> {
   }
 
   void navigateToVisualImpairmentQScreen() {
+    setState(() {
+      isGone = true;
+    });
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => VisualImpairmentQ()),
