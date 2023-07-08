@@ -22,16 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isValidEmail(enteredEmail)) {
       try {
-        //access firestore
-        QuerySnapshot<
-            Map<String,
-                dynamic>> querySnapshot = await FirebaseFirestore.instance
-            .collection('mentors')
-            .where('email', isEqualTo: enteredEmail)
-            .where('password', isEqualTo: enteredPassword)
-            .get(); //retrieve the documents that match the specified filters
-
-        if (querySnapshot.docs.isNotEmpty) {
+        if (await DatabaseMethods()
+            .checkCredentials(enteredEmail, enteredPassword)) {
           // Login successful
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

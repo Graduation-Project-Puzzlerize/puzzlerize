@@ -44,4 +44,18 @@ class DatabaseMethods {
         .then((value) => print("Document updated"))
         .catchError((error) => print("Failed to update document: $error"));
   }
+
+  Future<bool> checkCredentials(
+      String enteredEmail, String enteredPassword) async {
+    //access firestore
+    QuerySnapshot<Map<String, dynamic>> result = await FirebaseFirestore
+        .instance
+        .collection('mentors')
+        .where('email',
+            isEqualTo:
+                enteredEmail) //retrieve the documents that match the specified filters
+        .where('password', isEqualTo: enteredPassword)
+        .get();
+    return result.docs.isNotEmpty;
+  }
 }
