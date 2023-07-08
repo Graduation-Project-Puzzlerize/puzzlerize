@@ -4,6 +4,7 @@ import 'package:puzzlerize/screens/ready/ready.dart';
 import 'dart:math';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:puzzlerize/services/database.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -26,17 +27,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String nickname = '';
+  bool isGone = false;
 
   void initState() {
     super.initState();
     tts.nicknameSpeak();
     _speech = stt.SpeechToText();
-    Future.delayed(Duration(seconds: 2), () {
-      listen();
+    isGone = false;
+
+    Future.delayed(Duration(seconds: 5), () {
+      if (!isGone) {
+        listen();
+      }
+    });
+    Future.delayed(Duration(seconds: 10), () {
+      if (!isGone) {
+        navigatereadyScreen();
+      }
     });
   }
 
   void navigateToPINScreen() {
+    setState(() {
+      isGone = true;
+    });
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PINScreen()),
@@ -45,6 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void navigatereadyScreen() {
     if (nicknameController.text != '') {
+      setState(() {
+        isGone = true;
+      });
+      DatabaseMethods().addPalyer(nickname, avas[randAVA]);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ready()),

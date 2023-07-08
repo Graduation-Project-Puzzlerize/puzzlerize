@@ -61,14 +61,12 @@ class _PINScreenState extends State<PINScreen> {
         _isListening = false;
         isGone = true;
       });
-      print(isGone.toString() + 'sadddddddddd');
       _speech.stop();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfileScreen()),
       );
     } else {
-      print('[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]');
       setState(
         () {
           pinIsValidVisi = true;
@@ -173,8 +171,6 @@ class _PINScreenState extends State<PINScreen> {
       onError: (val) => print('onError: $val'),
     );
     if (available) {
-      print(isGone.toString() + 'jjjjjjjjjjjjjj');
-
       setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {

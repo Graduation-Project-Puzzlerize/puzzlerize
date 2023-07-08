@@ -9,4 +9,12 @@ class DatabaseMethods {
         .get();
     return result.docs.isNotEmpty;
   }
+
+  Future<void> addPalyer(String nickname, String avatar) {
+    return FirebaseFirestore.instance
+        .collection('players')
+        .add({'nickname': nickname, 'score': 0, 'avatar': avatar, 'winrate': 0})
+        .then((value) => print("Player added"))
+        .catchError((error) => print("Failed to add player: $error"));
+  }
 }
