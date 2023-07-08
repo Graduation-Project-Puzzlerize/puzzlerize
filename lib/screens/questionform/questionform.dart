@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puzzlerize/screens/my_games/my_games.dart';
 
 class QuestionForm extends StatefulWidget {
   @override
@@ -8,12 +9,25 @@ class QuestionForm extends StatefulWidget {
 
 class _QuestionFormState extends State<QuestionForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _gameNameController = TextEditingController();
   final TextEditingController _questionController = TextEditingController();
   final TextEditingController _choice1Controller = TextEditingController();
   final TextEditingController _choice2Controller = TextEditingController();
   final TextEditingController _choice3Controller = TextEditingController();
   final TextEditingController _choice4Controller = TextEditingController();
   String? _correctAnswer;
+  String? _gameName;
+
+  @override
+  void dispose() {
+    _gameNameController.dispose();
+    _questionController.dispose();
+    _choice1Controller.dispose();
+    _choice2Controller.dispose();
+    _choice3Controller.dispose();
+    _choice4Controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +41,16 @@ class _QuestionFormState extends State<QuestionForm> {
           key: _formKey,
           child: Column(
             children: [
+              TextFormField(
+                controller: _gameNameController,
+                decoration: InputDecoration(labelText: 'Game Name'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please enter a game name';
+                  }
+                  return null;
+                },
+              ),
               TextFormField(
                 controller: _questionController,
                 decoration: InputDecoration(labelText: 'Question'),
@@ -115,11 +139,18 @@ class _QuestionFormState extends State<QuestionForm> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
+                  if (_formKey.currentState!.validate()) {
                     addQuestion();
                   }
                 },
                 child: Text('Submit'),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  finishAddingQuestions();
+                },
+                child: Text('Finish'),
               ),
             ],
           ),
@@ -132,6 +163,7 @@ class _QuestionFormState extends State<QuestionForm> {
     final CollectionReference questionsCollection =
         FirebaseFirestore.instance.collection('questions');
     questionsCollection.add({
+      'gameName': _gameNameController.text,
       'question': _questionController.text,
       'choices': [
         _choice1Controller.text,
@@ -142,7 +174,8 @@ class _QuestionFormState extends State<QuestionForm> {
       'correctAnswer': _correctAnswer,
     }).then((value) {
       // Success, clear the form
-      _formKey.currentState?.reset();
+      _formKey.currentState!.reset();
+      _gameNameController.clear();
       _questionController.clear();
       _choice1Controller.clear();
       _choice2Controller.clear();
@@ -162,5 +195,18 @@ class _QuestionFormState extends State<QuestionForm> {
         ),
       );
     });
+  }
+
+  void finishAddingQuestions() {
+    // Perform actions when the monitor finishes adding questions
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Finished adding questions'),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => myGames()),
+    );
   }
 }
