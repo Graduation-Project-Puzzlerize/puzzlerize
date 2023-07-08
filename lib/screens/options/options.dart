@@ -18,7 +18,10 @@ class _OptionsScreenState extends State<Options> {
     DatabaseMethods().addResponse(answer, widget.player_id, widget.pin);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AnswerScreen()),
+      MaterialPageRoute(
+          builder: (context) =>
+              // Options(pin: widget.pin, player_id: widget.player_id)),            //This is the right page
+              AnswerScreen(question_id: '')), //This is for testing
     );
   }
 

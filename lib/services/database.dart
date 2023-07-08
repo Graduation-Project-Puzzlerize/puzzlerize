@@ -90,4 +90,51 @@ class DatabaseMethods {
       'password': password,
     });
   }
+
+  Future<num> getTheRightAnswer(String question_id) async {
+    DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance
+            .collection('questions')
+            .doc(question_id)
+            .get();
+    return querySnapshot['correct_answer'];
+  }
+
+  Future<num> correctAnswers(num writeAnswer) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('responses')
+        .where('optionNum', isEqualTo: writeAnswer)
+        .get();
+
+    querySnapshot.docs.forEach((element) async {
+      String player_id = element['player_id'];
+
+      DocumentSnapshot<Map<String, dynamic>> player = await FirebaseFirestore
+          .instance
+          .collection('players')
+          .doc(player_id)
+          .get();
+
+      num oldScore = player.data()?['score'];
+      print(oldScore);
+      FirebaseFirestore.instance
+          .collection('players')
+          .doc(player_id)
+          .update({'score': oldScore + 1});
+    });
+
+    return querySnapshot.docs.length;
+  }
+
+  Future<num> wrongAnswers(num writeAnswer) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('responses')
+        .where('optionNum', isNotEqualTo: writeAnswer)
+        .get();
+    print(querySnapshot.docs.length);
+
+    return querySnapshot.docs.length;
+  }
 }
