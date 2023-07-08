@@ -25,17 +25,26 @@ class _SignUpScreenState extends State<SignUp> {
     if (password.length >= 8) {
       // Check if the email is not already used
       if (!isEmailUsed(email)) {
-        // Save the user's information and show a success message
-        saveUser(name, email, password);
+        // Check if the email is in a valid format
+        if (isValidEmail(email)) {
+          // Save the user's information and show a success message
+          saveUser(name, email, password);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Sign up successful'),
-          ),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Sign up successful'),
+            ),
+          );
 
-        // Navigate to the login screen
-        navigateToLogin();
+          // Navigate to the login screen
+          navigateToLogin();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Invalid email format'),
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -71,6 +80,10 @@ class _SignUpScreenState extends State<SignUp> {
     );
   }
 
+  bool isValidEmail(String email) {
+    return email.contains("@");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +105,7 @@ class _SignUpScreenState extends State<SignUp> {
                 width: 200,
               ),
               TextFormField(
+                controller: nameController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   enabled: true,
@@ -120,6 +134,7 @@ class _SignUpScreenState extends State<SignUp> {
                 height: 10,
               ),
               TextFormField(
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   enabled: true,
@@ -149,6 +164,7 @@ class _SignUpScreenState extends State<SignUp> {
               ),
               // add some space between the text fields
               TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(

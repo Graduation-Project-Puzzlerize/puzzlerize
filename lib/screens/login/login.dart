@@ -20,25 +20,33 @@ class _LoginScreenState extends State<LoginScreen> {
     String enteredEmail = emailController.text;
     String enteredPassword = passwordController.text;
 
-    bool isLoginSuccessful =
-        checkLoginCredentials(enteredEmail, enteredPassword);
+    if (isValidEmail(enteredEmail)) {
+      bool isLoginSuccessful =
+          checkLoginCredentials(enteredEmail, enteredPassword);
 
-    if (isLoginSuccessful) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Login successful'),
-        ),
-      );
+      if (isLoginSuccessful) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login successful'),
+          ),
+        );
 
-      // Navigate to the MyGames screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => myGames()),
-      );
+        // Navigate to the MyGames screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => myGames()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Incorrect email or password'),
+          ),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Incorrect email or password'),
+          content: Text('Invalid email format'),
         ),
       );
     }
@@ -58,6 +66,13 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (context) => SignUp()),
     );
+  }
+
+  bool isValidEmail(String email) {
+    // return EmailValidator.validate(email);
+
+    // In this example, we check if the email contains the "@" symbol
+    return email.contains("@");
   }
 
   @override
