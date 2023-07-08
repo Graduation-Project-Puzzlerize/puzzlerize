@@ -17,4 +17,31 @@ class DatabaseMethods {
         .then((value) => print("Player added"))
         .catchError((error) => print("Failed to add player: $error"));
   }
+
+  Future<void> updateRoundInfo(String nickname, String roundPIN) async {
+    QuerySnapshot<Map<String, dynamic>> round = await FirebaseFirestore.instance
+        .collection('rounds')
+        .where("pin", isEqualTo: roundPIN)
+        .get();
+
+    QuerySnapshot<Map<String, dynamic>> player = await FirebaseFirestore
+        .instance
+        .collection('players')
+        .where("nickname", isEqualTo: nickname)
+        .get();
+
+    String playerID = player.docs[0].id;
+
+    var playersID = round.docs[0]['player_id'];
+    playersID.insert(0, playerID);
+
+    return FirebaseFirestore.instance
+        .collection('rounds')
+        .doc(round.docs[0].id)
+        .update({
+          'player_id': playersID,
+        })
+        .then((value) => print("Document updated"))
+        .catchError((error) => print("Failed to update document: $error"));
+  }
 }

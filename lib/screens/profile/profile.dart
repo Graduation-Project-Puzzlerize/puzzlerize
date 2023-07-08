@@ -7,6 +7,9 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:puzzlerize/services/database.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final String pin;
+  ProfileScreen({required this.pin});
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -26,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
-  String nickname = '';
   bool isGone = false;
 
   void initState() {
@@ -62,7 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         isGone = true;
       });
-      DatabaseMethods().addPalyer(nickname, avas[randAVA]);
+
+      DatabaseMethods().addPalyer(nicknameController.text, avas[randAVA]);
+      DatabaseMethods().updateRoundInfo(nicknameController.text, widget.pin);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ready()),
@@ -140,9 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {
-          nickname = val.recognizedWords;
-          nicknameController.text = nickname;
-          print(nickname);
+          nicknameController.text = val.recognizedWords;
         }),
       );
     } else {

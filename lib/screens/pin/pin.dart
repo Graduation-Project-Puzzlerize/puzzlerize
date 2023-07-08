@@ -64,7 +64,8 @@ class _PINScreenState extends State<PINScreen> {
       _speech.stop();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen(pin: pinController.text)),
       );
     } else {
       setState(
