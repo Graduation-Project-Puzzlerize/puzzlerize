@@ -191,20 +191,19 @@ class _SignUpScreenState extends State<SignUp> {
                         ),
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
-              SizedBox(
-                height: 10,
-              ),
-              TextButton(
-                onPressed: navigateToLogin,
+              SizedBox(height: 10),
+              Text("Don't have an account?"),
+              GestureDetector(
+                onTap: navigateToLogin,
                 child: Text(
-                  "Already have an account? login",
+                  "Lof In",
                   style: TextStyle(
-                    fontSize: 16,
                     color: Colors.blue,
-                    decoration: TextDecoration.underline,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
