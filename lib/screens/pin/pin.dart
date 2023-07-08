@@ -12,7 +12,6 @@ class PINScreen extends StatefulWidget {
 
 class _PINScreenState extends State<PINScreen> {
   late stt.SpeechToText _speech;
-  bool _isListening = false;
 
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   String pin = '';
@@ -58,7 +57,6 @@ class _PINScreenState extends State<PINScreen> {
     if (await DatabaseMethods()
         .isPINValid(pinController.text.replaceAll(' ', ''))) {
       setState(() {
-        _isListening = false;
         isGone = true;
       });
       _speech.stop();
@@ -71,7 +69,6 @@ class _PINScreenState extends State<PINScreen> {
       setState(
         () {
           pinIsValidVisi = true;
-          _isListening = true;
         },
       );
       tts.pinInvalidSpeak(context);
@@ -172,7 +169,6 @@ class _PINScreenState extends State<PINScreen> {
       onError: (val) => print('onError: $val'),
     );
     if (available) {
-      setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {
           pin = val.recognizedWords;
@@ -181,7 +177,6 @@ class _PINScreenState extends State<PINScreen> {
         }),
       );
     } else {
-      setState(() => _isListening = false);
       _speech.stop();
     }
   }

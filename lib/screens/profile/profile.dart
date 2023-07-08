@@ -28,7 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextToSpeech tts = new TextToSpeech();
 
   late stt.SpeechToText _speech;
-  bool _isListening = false;
   bool isGone = false;
 
   void initState() {
@@ -143,14 +142,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onError: (val) => print('onError: $val'),
     );
     if (available) {
-      setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {
           nicknameController.text = val.recognizedWords;
         }),
       );
     } else {
-      setState(() => _isListening = false);
       _speech.stop();
     }
   }

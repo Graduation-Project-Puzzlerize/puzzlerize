@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
@@ -73,5 +71,23 @@ class DatabaseMethods {
         })
         .then((value) => print("Response added"))
         .catchError((error) => print("Failed to add player: $error"));
+  }
+
+  Future<bool> isEmailUsed(String email) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  void addMentor(String name, String email, String password) async {
+    await FirebaseFirestore.instance.collection('mentors').add({
+      'name': name,
+      'email': email,
+      'password': password,
+    });
   }
 }

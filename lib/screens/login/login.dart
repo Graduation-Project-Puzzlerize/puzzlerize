@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
 import 'package:puzzlerize/screens/my_games/my_games.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puzzlerize/services/database.dart';
 
 class LoginScreen extends StatefulWidget {

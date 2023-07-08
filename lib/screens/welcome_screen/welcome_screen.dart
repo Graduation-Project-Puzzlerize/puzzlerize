@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:get/get.dart';
 import 'package:puzzlerize/screens/visual_impairment_q/visual_impairment_q.dart';
 
 class WelcomeScreen extends StatefulWidget {

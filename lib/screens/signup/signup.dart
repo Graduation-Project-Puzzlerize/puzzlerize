@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:puzzlerize/screens/login/login.dart';
+import 'package:puzzlerize/services/database.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -8,6 +9,76 @@ class SignUp extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUp> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> performSignUp() async {
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    // Check if the password length is 8 or more characters
+    if (password.length >= 8) {
+      // Check if the email is not already used
+      if (!await DatabaseMethods().isEmailUsed(email)) {
+        // Check if the email is in a valid format
+        if (isValidEmail(email)) {
+          // Save the user's information to Firestore
+          try {
+            DatabaseMethods().addMentor(name, email, password);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Sign up successful'),
+              ),
+            );
+
+            // Navigate to the login screen
+            navigateToLogin();
+          } catch (error) {
+            print('Error: $error');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('An error occurred. Please try again.'),
+              ),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Invalid email format'),
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Email is already in use'),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password should be 8 or more characters'),
+        ),
+      );
+    }
+  }
+
+  void navigateToLogin() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
+  bool isValidEmail(String email) {
+    return email.contains("@");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,16 +90,17 @@ class _SignUpScreenState extends State<SignUp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                image: AssetImage('assets/images/logo.jpeg'),
+                image: AssetImage('assets/images/logo.png'),
                 height: 50,
                 width: 200,
               ),
               Image(
-                image: AssetImage('assets/images/2.jpeg'),
+                image: AssetImage('assets/images/2.png'),
                 height: 200,
                 width: 200,
               ),
               TextFormField(
+                controller: nameController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   enabled: true,
@@ -57,6 +129,7 @@ class _SignUpScreenState extends State<SignUp> {
                 height: 10,
               ),
               TextFormField(
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   enabled: true,
@@ -84,8 +157,8 @@ class _SignUpScreenState extends State<SignUp> {
               SizedBox(
                 height: 10,
               ),
-              // add some space between the text fields
               TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
@@ -113,7 +186,7 @@ class _SignUpScreenState extends State<SignUp> {
               ),
               SizedBox(height: 10),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: performSignUp,
                   child: Text(
                     "Sign Up",
                     style: TextStyle(fontSize: 20),
@@ -128,10 +201,19 @@ class _SignUpScreenState extends State<SignUp> {
                         ),
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              Text("Already have an account?"),
+              GestureDetector(
+                onTap: navigateToLogin,
+                child: Text(
+                  "Log In",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              Text("Already have an account ? ")
             ],
           ),
         ),
@@ -139,173 +221,3 @@ class _SignUpScreenState extends State<SignUp> {
     );
   }
 }
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
-
-// class signup extends StatelessWidget {
-//   const signup({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: SizedBox(
-//           height: double.infinity,
-//           width: double.infinity,
-//           child: Stack(
-//             children: [
-//               SizedBox(
-//                 width: double.infinity,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   children: [
-//                     SizedBox(
-//                       height: 23,
-//                     ),
-//                     Image.asset(
-//                       "assets/images/Capture.PNG",
-//                       width: 500,
-//                     ),
-//                     SizedBox(
-//                       height: 15,
-//                     ),
-//                     Image.asset(
-//                       "assets/images/Capture2.PNG",
-//                       width: 250,
-//                     ),
-//                     SizedBox(
-//                       height: 20,
-//                     ),
-//                     Text(
-//                       "Sign Up",
-//                       style:
-//                           TextStyle(fontSize: 31, fontWeight: FontWeight.w800),
-//                     ),
-//                     SizedBox(
-//                       height: 20,
-//                     ),
-//                     Container(
-//                       decoration: BoxDecoration(
-//                        // color: Colors.purple[100],
-//                         //borderRadius :
-                      
-//                         borderRadius: BorderRadius.circular(3),
-//                         border: Border.all(
-//                     color: Color.fromARGB(255, 109, 16, 126),
-//                     width: 1,
-//                   )
-//                       ),
-//                       width: 266,
-//                       padding: EdgeInsets.symmetric(horizontal: 16),
-//                       child: TextField(
-//                         decoration: InputDecoration(
-//                             icon: Icon(
-//                               Icons.person_pin_sharp,
-//                               color: Colors.purple[800],
-//                             ),
-//                             hintText: "Name :",
-//                             border: InputBorder.none),
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 17,
-//                     ),
-
-//                     ///## onPressed:(){Navigator.pushNamed(context, "")},
-//                     Container(
-//                       decoration: BoxDecoration(
-//                         ///color: Colors.purple[100],
-//                         borderRadius: BorderRadius.circular(3),
-//                         border: Border.all(
-//                     color: Color.fromARGB(255, 109, 16, 126),
-//                     width: 1,
-//                   )
-//                       ),
-//                       width: 266,
-//                       padding: EdgeInsets.symmetric(horizontal: 16),
-//                       child: TextField(
-//                         decoration: InputDecoration(
-//                             icon: Icon(
-//                               Icons.email,
-//                               color: Colors.purple[800],
-//                             ),
-//                             hintText: "Email :",
-//                             border: InputBorder.none),
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 17,
-//                     ),
-//                     Container(
-//                       decoration: BoxDecoration(
-//                         //color: Colors.purple[100],
-//                         borderRadius: BorderRadius.circular(3),
-//                         border: Border.all(
-//                     color: Color.fromARGB(255, 109, 16, 126),
-//                     width: 1,
-//                   )
-//                       ),
-//                       width: 266,
-//                       padding: EdgeInsets.symmetric(horizontal: 16),
-//                       child: TextField(
-//                         obscureText: true,
-//                         decoration: InputDecoration(
-//                             suffix: Icon(
-//                               Icons.visibility,
-//                               color: Colors.purple[900],
-//                             ),
-//                             icon: Icon(
-//                               Icons.lock,
-//                               color: Colors.purple[800],
-//                               size: 19,
-//                             ),
-//                             hintText: "Password :",
-                            
-//                             border: InputBorder.none),
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 17,
-//                     ),
-//                     ElevatedButton(
-//                       child: Text(
-//                         "Sign Up",
-//                         style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.w600),
-//                       ),
-//                       style: ButtonStyle(
-//                           backgroundColor:
-//                               MaterialStateProperty.all(Colors.purple[800]),
-//                           padding: MaterialStateProperty.all(
-//                               EdgeInsets.symmetric(
-//                                   horizontal: 100, vertical: 12)),
-//                           shape: MaterialStateProperty.all(
-//                               RoundedRectangleBorder(
-//                                   borderRadius: BorderRadius.circular(3)))),
-//                       onPressed: () {},
-//                     ),
-//                     SizedBox(
-//                       height: 20,
-//                     ),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         Text("Already have an account ?"),
-//                         Text("Log in"),
-//                       ],
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
