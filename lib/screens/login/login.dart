@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
 import 'package:puzzlerize/screens/my_games/my_games.dart';
 import 'package:puzzlerize/screens/user_data/user_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puzzlerize/services/database.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,35 +17,55 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void performLogin() {
-    // Simulated login operation with hardcoded email and password values
+  Future<void> performLogin() async {
     String enteredEmail = emailController.text;
     String enteredPassword = passwordController.text;
 
     if (isValidEmail(enteredEmail)) {
-      bool isLoginSuccessful =
-          checkLoginCredentials(enteredEmail, enteredPassword);
+      try {
+        //access firestore
+        QuerySnapshot<
+            Map<String,
+                dynamic>> querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: enteredEmail)
+            .where('password', isEqualTo: enteredPassword)
+            .get(); //retrieve the documents that match the specified filters
 
-      if (isLoginSuccessful) {
+        if (querySnapshot.docs.isNotEmpty) {
+          // Login successful
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Login successful'),
+            ),
+          );
+
+          // Navigate to the UserData screen and pass the retrieved user data
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => myGames(),
+            ),
+          );
+        } else {
+          // Incorrect email or password
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Incorrect email or password'),
+            ),
+          );
+        }
+      } catch (error) {
+        print('Error: $error');
+        // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login successful'),
-          ),
-        );
-
-        // Navigate to the MyGames screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => myGames()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Incorrect email or password'),
+            content: Text('An error occurred. Please try again.'),
           ),
         );
       }
     } else {
+      // Invalid email format
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Invalid email format'),
@@ -52,13 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  bool checkLoginCredentials(String email, String password) {
-    for (var user in usedEmails) {
-      if (user['email'] == email && user['password'] == password) {
-        return true;
-      }
-    }
-    return false;
+  bool isValidEmail(String email) {
+    return email.contains("@");
   }
 
   void navigateToSignUp() {
@@ -66,13 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (context) => SignUp()),
     );
-  }
-
-  bool isValidEmail(String email) {
-    // return EmailValidator.validate(email);
-
-    // In this example, we check if the email contains the "@" symbol
-    return email.contains("@");
   }
 
   @override
