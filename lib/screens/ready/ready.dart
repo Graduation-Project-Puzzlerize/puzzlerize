@@ -8,9 +8,10 @@ class ready extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SizedBox(
-          // height: double.infinity,
-          // width: double.infinity,
+          height: double.infinity,
+          width: double.infinity,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -39,10 +40,8 @@ class NumberThreeAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Lottie.asset(
-      'assets/newScene(3).json',
+      'assets/images/newScene(3).json',
       repeat: false,
-      // height: 400,
-      // width: 700,
     );
   }
 }

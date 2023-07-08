@@ -17,6 +17,7 @@ class _PINScreenState extends State<PINScreen> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   String pin = '';
   bool pinIsValidVisi = false;
+  bool isGone = false;
   TextEditingController pinController = TextEditingController();
   final TextToSpeech tts = new TextToSpeech();
 
@@ -25,11 +26,16 @@ class _PINScreenState extends State<PINScreen> {
     super.initState();
     tts.enterThePINSpeak();
     _speech = stt.SpeechToText();
-    Future.delayed(Duration(seconds: 3), () {
-      listen();
+
+    Future.delayed(Duration(seconds: 5), () {
+      if (!isGone) {
+        listen();
+      }
     });
     Future.delayed(Duration(seconds: 10), () {
-      navigateToProfileScreen();
+      if (!isGone) {
+        navigateToProfileScreen();
+      }
     });
   }
 
@@ -47,8 +53,12 @@ class _PINScreenState extends State<PINScreen> {
       },
     );
     if (await DatabaseMethods()
-        .isPINValid(pinController.text..replaceAll(' ', ''))) {
-      setState(() => _isListening = false);
+        .isPINValid(pinController.text.replaceAll(' ', ''))) {
+      setState(() {
+        _isListening = false;
+        isGone = true;
+      });
+      print(isGone.toString() + 'sadddddddddd');
       _speech.stop();
       Navigator.push(
         context,
@@ -160,6 +170,8 @@ class _PINScreenState extends State<PINScreen> {
       onError: (val) => print('onError: $val'),
     );
     if (available) {
+      print(isGone.toString() + 'jjjjjjjjjjjjjj');
+
       setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {

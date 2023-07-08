@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/pin/pin.dart';
 import 'package:puzzlerize/screens/ready/ready.dart';
 import 'dart:math';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -19,6 +21,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int randAVA = Random().nextInt(5);
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   TextEditingController nicknameController = TextEditingController();
+  final TextToSpeech tts = new TextToSpeech();
+
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+  String nickname = '';
+
+  void initState() {
+    super.initState();
+    tts.nicknameSpeak();
+    _speech = stt.SpeechToText();
+    Future.delayed(Duration(seconds: 2), () {
+      listen();
+    });
+  }
+
   void navigateToPINScreen() {
     Navigator.push(
       context,
@@ -94,5 +111,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ]),
       )),
     );
+  }
+
+  void listen() async {
+    bool available = await _speech.initialize(
+      onStatus: (val) => print('onStatus: $val'),
+      onError: (val) => print('onError: $val'),
+    );
+    if (available) {
+      setState(() => _isListening = true);
+      _speech.listen(
+        onResult: (val) => setState(() {
+          nickname = val.recognizedWords;
+          nicknameController.text = nickname;
+          print(nickname);
+        }),
+      );
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+  }
+}
+
+class TextToSpeech extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
+
+  nicknameSpeak() async {
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1); //0.5 to 1.5
+    await flutterTts.speak("ُEnter your nickname");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
