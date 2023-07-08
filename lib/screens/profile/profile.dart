@@ -18,6 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   int randAVA = Random().nextInt(5);
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  TextEditingController nicknameController = TextEditingController();
   void navigateToPINScreen() {
     Navigator.push(
       context,
@@ -26,10 +27,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void navigatereadyScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ready()),
-    );
+    if (nicknameController.text != '') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ready()),
+      );
+    }
   }
 
   @override
@@ -50,6 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.all(15),
             child: TextField(
+              controller: nicknameController,
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 hintText: "Nickname",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 
 class ready extends StatelessWidget {
   const ready({Key? key}) : super(key: key);
@@ -8,51 +9,40 @@ class ready extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
+          // height: double.infinity,
+          // width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 80,
               ),
               Image.asset(
                 "assets/images/are_you_ready.PNG",
-                width: 500,
+                // width: 500,
               ),
-              SizedBox(
-                height: 130,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Image.asset(
-                        'assets/images/no1.PNG',
-                        fit: BoxFit.fill,
-                        height: 150,
-                      ),
-                      flex: 1),
-                  Expanded(
-                      child: Image.asset(
-                        'assets/images/no2.PNG',
-                        fit: BoxFit.fill,
-                        height: 150,
-                      ),
-                      flex: 1),
-                  Expanded(
-                      child: Image.asset(
-                        'assets/images/no3.PNG',
-                        fit: BoxFit.fill,
-                        height: 150,
-                      ),
-                      flex: 1),
-                ],
+              Center(
+                child: AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: NumberThreeAnimation(),
+                ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class NumberThreeAnimation extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Lottie.asset(
+      'assets/newScene(3).json',
+      repeat: false,
+      // height: 400,
+      // width: 700,
     );
   }
 }
