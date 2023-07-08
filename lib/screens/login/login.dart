@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
+import 'package:puzzlerize/screens/my_games/my_games.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puzzlerize/services/database.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,29 +16,65 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void performLogin() {
-    // Simulated login operation with hardcoded email and password values
+  Future<void> performLogin() async {
     String enteredEmail = emailController.text;
     String enteredPassword = passwordController.text;
 
-    String validEmail = 'aaa@aaa.com';
-    String validPassword = 'aaa123';
+    if (isValidEmail(enteredEmail)) {
+      try {
+        //access firestore
+        QuerySnapshot<
+            Map<String,
+                dynamic>> querySnapshot = await FirebaseFirestore.instance
+            .collection('mentors')
+            .where('email', isEqualTo: enteredEmail)
+            .where('password', isEqualTo: enteredPassword)
+            .get(); //retrieve the documents that match the specified filters
 
-    if (enteredEmail == validEmail && enteredPassword == validPassword) {
-      // Email and password are correct
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Login successful'),
-        ),
-      );
+        if (querySnapshot.docs.isNotEmpty) {
+          // Login successful
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Login successful'),
+            ),
+          );
+
+          // Navigate to the UserData screen and pass the retrieved user data
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => myGames(),
+            ),
+          );
+        } else {
+          // Incorrect email or password
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Incorrect email or password'),
+            ),
+          );
+        }
+      } catch (error) {
+        print('Error: $error');
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred. Please try again.'),
+          ),
+        );
+      }
     } else {
-      // Email or password is incorrect
+      // Invalid email format
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Incorrect email or password'),
+          content: Text('Invalid email format'),
         ),
       );
     }
+  }
+
+  bool isValidEmail(String email) {
+    return email.contains("@");
   }
 
   void navigateToSignUp() {
@@ -137,7 +176,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
               SizedBox(height: 10),
-              Text("Already have an account ? ")
+              Text("Don't have an account?"),
+              GestureDetector(
+                onTap: navigateToSignUp,
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
