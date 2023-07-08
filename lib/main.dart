@@ -13,7 +13,7 @@ Future<void> main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => MyApp(),
-      '/main': (context) => ListenPage(mentor_id: 'll'),
+      '/main': (context) => WelcomeScreen(),
     },
   ));
 }
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ListenPage(mentor_id: 'll')),
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );
     });
   }

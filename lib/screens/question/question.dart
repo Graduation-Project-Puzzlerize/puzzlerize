@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puzzlerize/services/database.dart';
+import 'package:puzzlerize/screens/winner/winner.dart';
 
 class QuestionScreen extends StatefulWidget {
   final String mentor_id;
@@ -18,7 +19,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String opt4 = '';
 
   Future<void> getQuestionInfo() async {
-    question = await DatabaseMethods().getQuestion('ll');
+    question = await DatabaseMethods().getQuestion(widget.mentor_id);
     opt1 = await DatabaseMethods().getOpt1(widget.mentor_id);
     opt2 = await DatabaseMethods().getOpt2(widget.mentor_id);
     opt3 = await DatabaseMethods().getOpt3(widget.mentor_id);
@@ -35,11 +36,19 @@ class _QuestionScreenState extends State<QuestionScreen> {
   void moveToNextQuestion() {
     DatabaseMethods().deleteQ(widget.mentor_id);
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => QuestionScreen(mentor_id: widget.mentor_id)),
-      );
+      if (question != '') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  QuestionScreen(mentor_id: widget.mentor_id)),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => winner()),
+        );
+      }
     });
   }
 
