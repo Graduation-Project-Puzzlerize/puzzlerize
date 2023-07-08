@@ -192,7 +192,7 @@ class _SignUpScreenState extends State<SignUp> {
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
               SizedBox(height: 10),
-              Text("Don't have an account?"),
+              Text("alrady have an account?"),
               GestureDetector(
                 onTap: navigateToLogin,
                 child: Text(
