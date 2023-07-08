@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
+import 'package:puzzlerize/screens/my_games/my_games.dart';
+import 'package:puzzlerize/screens/user_data/user_data.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,24 +20,37 @@ class _LoginScreenState extends State<LoginScreen> {
     String enteredEmail = emailController.text;
     String enteredPassword = passwordController.text;
 
-    String validEmail = 'aaa@aaa.com';
-    String validPassword = 'aaa123';
+    bool isLoginSuccessful =
+        checkLoginCredentials(enteredEmail, enteredPassword);
 
-    if (enteredEmail == validEmail && enteredPassword == validPassword) {
-      // Email and password are correct
+    if (isLoginSuccessful) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Login successful'),
         ),
       );
+
+      // Navigate to the MyGames screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => myGames()),
+      );
     } else {
-      // Email or password is incorrect
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Incorrect email or password'),
         ),
       );
     }
+  }
+
+  bool checkLoginCredentials(String email, String password) {
+    for (var user in usedEmails) {
+      if (user['email'] == email && user['password'] == password) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void navigateToSignUp() {
@@ -137,7 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       fixedSize: MaterialStateProperty.all(Size(300, 50)))),
               SizedBox(height: 10),
-              Text("Already have an account ? ")
+              Text("Don't have an account?"),
+              GestureDetector(
+                onTap: navigateToSignUp,
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
