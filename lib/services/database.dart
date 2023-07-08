@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
@@ -18,7 +20,7 @@ class DatabaseMethods {
         .catchError((error) => print("Failed to add player: $error"));
   }
 
-  Future<void> updateRoundInfo(String nickname, String roundPIN) async {
+  Future<String> updateRoundInfo(String nickname, String roundPIN) async {
     QuerySnapshot<Map<String, dynamic>> round = await FirebaseFirestore.instance
         .collection('rounds')
         .where("pin", isEqualTo: roundPIN)
@@ -35,7 +37,7 @@ class DatabaseMethods {
     var playersID = round.docs[0]['player_id'];
     playersID.insert(0, playerID);
 
-    return FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('rounds')
         .doc(round.docs[0].id)
         .update({
@@ -43,6 +45,8 @@ class DatabaseMethods {
         })
         .then((value) => print("Document updated"))
         .catchError((error) => print("Failed to update document: $error"));
+
+    return playerID;
   }
 
   Future<bool> checkCredentials(
@@ -57,5 +61,17 @@ class DatabaseMethods {
         .where('password', isEqualTo: enteredPassword)
         .get();
     return result.docs.isNotEmpty;
+  }
+
+  void addResponse(num optionNum, String playerID, String roundPIN) async {
+    return await FirebaseFirestore.instance
+        .collection('responses')
+        .add({
+          'optionNum': optionNum,
+          'player_id': playerID,
+          'round_pin': roundPIN
+        })
+        .then((value) => print("Response added"))
+        .catchError((error) => print("Failed to add player: $error"));
   }
 }

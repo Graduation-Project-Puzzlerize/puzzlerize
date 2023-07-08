@@ -59,17 +59,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void navigatereadyScreen() {
+  void navigatereadyScreen() async {
     if (nicknameController.text != '') {
       setState(() {
         isGone = true;
       });
 
       DatabaseMethods().addPalyer(nicknameController.text, avas[randAVA]);
-      DatabaseMethods().updateRoundInfo(nicknameController.text, widget.pin);
+      String playerID = await DatabaseMethods()
+          .updateRoundInfo(nicknameController.text, widget.pin);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ready()),
+        MaterialPageRoute(
+            builder: (context) => ready(pin: widget.pin, player_id: playerID)),
       );
     }
   }

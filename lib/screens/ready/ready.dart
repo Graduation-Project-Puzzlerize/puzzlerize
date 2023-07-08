@@ -5,6 +5,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:puzzlerize/screens/options/options.dart';
 
 class ready extends StatefulWidget {
+  final String pin, player_id;
+  ready({required this.pin, required this.player_id});
+
   @override
   _readyScreenState createState() => _readyScreenState();
 }
@@ -19,7 +22,9 @@ class _readyScreenState extends State<ready> {
     Future.delayed(Duration(seconds: 5), () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Options()),
+        MaterialPageRoute(
+            builder: (context) =>
+                Options(pin: widget.pin, player_id: widget.player_id)),
       );
     });
   }
