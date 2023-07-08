@@ -199,7 +199,7 @@ class _SignUpScreenState extends State<SignUp> {
                   "Log In",
                   style: TextStyle(
                     color: Colors.blue,
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
