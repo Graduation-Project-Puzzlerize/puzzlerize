@@ -27,9 +27,8 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
   Future<num> rightAnswer() async {
     answer = await DatabaseMethods().getTheRightAnswer(widget.question_id);
-    correctAnswers = await DatabaseMethods().correctAnswers(answer);
-    wrongAnswers =
-        await DatabaseMethods().wrongAnswers(answer, widget.question_id);
+    correctAnswers = await DatabaseMethods().correctAnswers(answer, widget.pin);
+    wrongAnswers = await DatabaseMethods().wrongAnswers(answer, widget.pin);
     setState(() {
       answer = answer;
       correctAnswers = correctAnswers;

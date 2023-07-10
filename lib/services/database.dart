@@ -110,11 +110,12 @@ class DatabaseMethods {
     return int.parse(querySnapshot['correctAnswer']);
   }
 
-  Future<num> correctAnswers(num writeAnswer) async {
+  Future<num> correctAnswers(num writeAnswer, String round_pin) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
         .instance
         .collection('responses')
         .where('optionNum', isEqualTo: writeAnswer)
+        .where('round_pin', isEqualTo: round_pin)
         .get();
 
     querySnapshot.docs.forEach((element) async {
@@ -137,11 +138,12 @@ class DatabaseMethods {
     return querySnapshot.docs.length;
   }
 
-  Future<num> wrongAnswers(num wrongAnswer, String mentor_id) async {
+  Future<num> wrongAnswers(num writeAnswer, String round_pin) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
         .instance
         .collection('responses')
-        .where('optionNum', isNotEqualTo: wrongAnswer)
+        .where('optionNum', isNotEqualTo: writeAnswer)
+        .where('round_pin', isEqualTo: round_pin)
         .get();
     return querySnapshot.docs.length;
   }
@@ -282,8 +284,6 @@ class DatabaseMethods {
   }
 
   Future<List<QueryDocumentSnapshot>> getWinners(String pin) async {
-    print('iiiiiiiiiii');
-
     CollectionReference allPlayers =
         FirebaseFirestore.instance.collection('players');
 
