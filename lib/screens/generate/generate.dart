@@ -24,11 +24,17 @@ class _GenerateScreenState extends State<Generate> {
     super.initState();
   }
 
-  void navigateToMeetScreen() {
+  void navigateToMeetScreen() async {
+    List players = await DatabaseMethods().getPlayers(pin);
+
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => Meet(mentor_id: widget.mentor_id, pin: pin)),
+          builder: (context) => Meet(
+                mentor_id: widget.mentor_id,
+                pin: pin,
+                players: players,
+              )),
     );
   }
 

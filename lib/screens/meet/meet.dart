@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:puzzlerize/screens/listen/listen.dart';
+import 'package:puzzlerize/services/database.dart';
 
 class Meet extends StatefulWidget {
   final String mentor_id, pin;
-  Meet({required this.mentor_id, required this.pin});
+  final List players;
+  Meet({required this.mentor_id, required this.pin, required this.players});
   @override
   _MeetScreenState createState() => _MeetScreenState();
 }
 
 class _MeetScreenState extends State<Meet> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
-  List players = [];
-
-  getData() async {
-    CollectionReference playersRef =
-        FirebaseFirestore.instance.collection("players");
-    QuerySnapshot qs = await playersRef.limit(3).get();
-    List<QueryDocumentSnapshot> listDocs = qs.docs;
-
-    setState(() {
-      players = listDocs.map((doc) => doc.data()).toList();
-    });
-  }
 
   @override
   void initState() {
-    // getData();
     super.initState();
   }
 
@@ -40,11 +28,6 @@ class _MeetScreenState extends State<Meet> {
 
   @override
   Widget build(BuildContext context) {
-    // if (players.isEmpty) {
-    //   return Center(
-    //     child: CircularProgressIndicator(),
-    //   );
-    // }
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -62,14 +45,13 @@ class _MeetScreenState extends State<Meet> {
                     child: Column(
                       children: <Widget>[
                         const SizedBox(width: 20.0),
-                        for (var player in players)
-                          // Text:(player[,])
+                        for (var player in widget.players)
                           Row(
                             children: <Widget>[
                               const SizedBox(width: 20.0),
                               Container(
-                                width: 80.0,
-                                height: 80.0,
+                                width: 50,
+                                height: 50,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -88,9 +70,6 @@ class _MeetScreenState extends State<Meet> {
                               ),
                             ],
                           ),
-                        SizedBox(
-                          height: 25,
-                        ),
                         SizedBox(
                           height: 65,
                         ),

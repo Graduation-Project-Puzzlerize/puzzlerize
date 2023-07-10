@@ -243,4 +243,28 @@ class DatabaseMethods {
 
     return querySnapshot.docs.isNotEmpty;
   }
+
+  Future<List<Map<dynamic, dynamic>>> getPlayers(String pin) async {
+    QuerySnapshot<Map<String, dynamic>> round = await FirebaseFirestore.instance
+        .collection('rounds')
+        .where('pin', isEqualTo: pin)
+        .get();
+
+    QuerySnapshot<Map<String, dynamic>> allPlayers =
+        await FirebaseFirestore.instance.collection('players').get();
+
+    var players = <Map>[];
+    for (int i = 0; i < allPlayers.docs.length; i++) {
+      print(allPlayers.docs[i].id);
+
+      if (round.docs[0]['player_id'].contains(allPlayers.docs[i].id)) {
+        players.add({
+          'nickname': allPlayers.docs[i]['nickname'],
+          'avatar': allPlayers.docs[i]['avatar']
+        });
+      }
+    }
+    print(round.docs[0]['player_id']);
+    return players;
+  }
 }
