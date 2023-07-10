@@ -194,16 +194,8 @@ class DatabaseMethods {
     return querySnapshot.docs[0]['options'][3];
   }
 
-  Future<void> deleteQ(String mentor_id) async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
-        .instance
-        .collection('questions')
-        .where('mentor_id', isEqualTo: mentor_id)
-        .get();
-
-    String question_id = querySnapshot.docs[0].id;
-
-    FirebaseFirestore.instance
+  Future<void> deleteQ(String question_id) {
+    return FirebaseFirestore.instance
         .collection('questions')
         .doc(question_id)
         .delete();

@@ -38,8 +38,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
   }
 
   void moveToNextQuestionORwinner() {
-    print(widget.pin);
-    DatabaseMethods().deleteQ(widget.mentor_id);
+    DatabaseMethods().deleteQ(widget.question_id);
     DatabaseMethods().deleteResponses(widget.pin);
 
     Future.delayed(Duration(seconds: 3), () async {
