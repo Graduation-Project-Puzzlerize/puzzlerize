@@ -26,7 +26,7 @@ class _WinnerScreenState extends State<Winner> {
 
   @override
   void initState() {
-    getWinners();
+    // getWinners();
     super.initState();
   }
 
@@ -46,151 +46,132 @@ class _WinnerScreenState extends State<Winner> {
             ),
             Row(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 370, 3, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/trophy(7).png",
-                        height: 50,
-                        width: 50,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/trophy(7).png",
+                      height: 50,
+                      width: 50,
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 131, 3, 151),
                       ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 131, 3, 151),
+                      child: Center(
+                          child: Text(
+                        players.length >= 1
+                            ? players[2]['nickname'] ?? ""
+                            : "", // Check if players list has at least two elements and access 'nickname' //replace this text with player name
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          players.length >= 1
-                              ? players[2]['nickname'] ?? ""
-                              : "", // Check if players list has at least two elements and access 'nickname' //replace this text with player name
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
+                      )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(146, 134, 2, 155),
                       ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(146, 134, 2, 155),
+                      child: Center(
+                          child: Text(
+                        "${players.isNotEmpty ? players[2]['score'] ?? "" : ""} ", //replace this text with player score // Check if players list has at least two elements and access 'score' "${players[0]['score']} out of 30", // replace this with player score
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          "${players.isNotEmpty ? players[2]['score'] ?? "" : ""} out of 30", //replace this text with player score // Check if players list has at least two elements and access 'score' "${players[0]['score']} out of 30", // replace this with player score
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
-                      ),
-                    ],
-                  ),
+                      )),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 290, 3, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/trophy(6).png",
-                        height: 50,
-                        width: 50,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/trophy(6).png",
+                      height: 50,
+                      width: 50,
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 131, 3, 151),
                       ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 131, 3, 151),
+                      child: Center(
+                          child: Text(
+                        players.isNotEmpty ? players[0]['nickname'] ?? "" : "",
+                        //replace this text with player name
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          players.isNotEmpty
-                              ? players[0]['nickname'] ?? ""
-                              : "",
-                          //replace this text with player name
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
+                      )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(146, 134, 2, 155),
                       ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(146, 134, 2, 155),
+                      child: Center(
+                          child: Text(
+                        "${players.isNotEmpty ? players[0]['score'] : ""} ", //replace this text with player score
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          "${players.isNotEmpty ? players[0]['score'] : ""} out of 30", //replace this text with player score
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
-                      ),
-                    ],
-                  ),
+                      )),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 350, 5, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/trophy(5).png",
-                        height: 50,
-                        width: 50,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/trophy(5).png",
+                      height: 50,
+                      width: 50,
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 131, 3, 151),
                       ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 131, 3, 151),
+                      child: Center(
+                          child: Text(
+                        players.isNotEmpty
+                            ? players[1]['nickname'] ?? ""
+                            : "", //replace this text with player name
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          players.isNotEmpty
-                              ? players[1]['nickname'] ?? ""
-                              : "", //replace this text with player name
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
+                      )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(146, 134, 2, 155),
                       ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(146, 134, 2, 155),
+                      child: Center(
+                          child: Text(
+                        "${players.isNotEmpty ? players[2]['score'] ?? "" : ""} ", //replace this text with player score
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
-                        child: Center(
-                            child: Text(
-                          "${players.isNotEmpty ? players[1]['score'] ?? "" : ""} out of 30", //replace this text with player score
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        )),
-                      ),
-                    ],
-                  ),
+                      )),
+                    ),
+                  ],
                 ),
+                // ),
               ],
             ),
           ],

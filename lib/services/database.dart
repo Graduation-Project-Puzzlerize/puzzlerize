@@ -284,13 +284,12 @@ class DatabaseMethods {
   Future<List<QueryDocumentSnapshot>> getWinners(String pin) async {
     CollectionReference allPlayers =
         FirebaseFirestore.instance.collection('players');
+    print('iiiiiiiiiii');
 
     QuerySnapshot allPlayersOrderd = await allPlayers
         .where('pin', isEqualTo: pin)
         .orderBy('score', descending: true)
         .get();
-
-    print('iiiiiiiiiii');
 
     print(allPlayersOrderd.docs.length);
     return allPlayersOrderd.docs;
