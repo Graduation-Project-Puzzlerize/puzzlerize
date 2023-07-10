@@ -1,7 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class winner extends StatelessWidget {
-  const winner({Key? key}) : super(key: key);
+class winner extends StatefulWidget {
+  @override
+  _winnerScreenState createState() => _winnerScreenState();
+}
+
+class _winnerScreenState extends State<winner> {
+  GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  List players = [];
+
+  getData() async {
+    CollectionReference playersRef =
+        FirebaseFirestore.instance.collection("players");
+    QuerySnapshot qs =
+        await playersRef.orderBy("score", descending: true).get();
+    List<QueryDocumentSnapshot> listDocs = qs.docs;
+    listDocs.forEach((element) {
+      print(element.data());
+      print("####################");
+    });
+    setState(() {
+      players = listDocs.map((doc) => doc.data()).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,7 +55,7 @@ class winner extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/images/trophy (7).png",
+                        "assets/images/trophy(7).png",
                         height: 120,
                         width: 100,
                       ),
@@ -38,7 +67,9 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "Avery Davis",
+                          players.length >= 1
+                              ? players[2]['nickname'] ?? ""
+                              : "", // Check if players list has at least two elements and access 'nickname' //replace this text with player name
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -56,7 +87,7 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "22 out of 30",
+                          "${players.isNotEmpty ? players[2]['score'] ?? "" : ""} out of 30", //replace this text with player score // Check if players list has at least two elements and access 'score' "${players[0]['score']} out of 30", // replace this with player score
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -72,7 +103,7 @@ class winner extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/images/trophy (6).png",
+                        "assets/images/trophy(6).png",
                         height: 130,
                         width: 120,
                       ),
@@ -84,7 +115,10 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "Avery Davis",
+                          players.isNotEmpty
+                              ? players[0]['nickname'] ?? ""
+                              : "",
+                          //replace this text with player name
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -102,7 +136,7 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "22 out of 30",
+                          "${players.isNotEmpty ? players[0]['score'] ?? "" : ""} out of 30", //replace this text with player score
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -118,7 +152,7 @@ class winner extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/images/trophy (5).png",
+                        "assets/images/trophy(5).png",
                         height: 120,
                         width: 100,
                       ),
@@ -130,7 +164,9 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "Avery Davis",
+                          players.isNotEmpty
+                              ? players[1]['nickname'] ?? ""
+                              : "", //replace this text with player name
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -148,7 +184,7 @@ class winner extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "22 out of 30",
+                          "${players.isNotEmpty ? players[1]['score'] ?? "" : ""} out of 30", //replace this text with player score
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 255, 255, 255),

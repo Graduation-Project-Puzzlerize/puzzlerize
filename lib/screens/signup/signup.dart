@@ -82,6 +82,7 @@ class _SignUpScreenState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: scaffoldkey,
       body: Center(
         child: Padding(
@@ -95,7 +96,7 @@ class _SignUpScreenState extends State<SignUp> {
                 width: 200,
               ),
               Image(
-                image: AssetImage('assets/images/2.png'),
+                image: AssetImage('assets/images/22.png'),
                 height: 200,
                 width: 200,
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:puzzlerize/screens/signup/signup.dart';
-import 'package:puzzlerize/screens/my_games/my_games.dart';
+import 'package:puzzlerize/screens/questionform/questionform.dart';
 import 'package:puzzlerize/services/database.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,12 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
               content: Text('Login successful'),
             ),
           );
-
+          String mentor_id = await DatabaseMethods().getMentorID(enteredEmail);
           // Navigate to the UserData screen and pass the retrieved user data
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => myGames(),
+              builder: (context) => QuestionForm(mentor_id: mentor_id),
             ),
           );
         } else {
@@ -78,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: scaffoldkey,
       body: Center(
         child: Padding(
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 200,
               ),
               Image(
-                image: AssetImage('assets/images/2.png'),
+                image: AssetImage('assets/images/22.png'),
                 height: 200,
                 width: 200,
               ),

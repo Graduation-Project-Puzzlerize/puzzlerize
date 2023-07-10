@@ -91,6 +91,16 @@ class DatabaseMethods {
     });
   }
 
+  Future<String> getMentorID(String email) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('mentors')
+        .where('email', isEqualTo: email)
+        .get();
+
+    return querySnapshot.docs[0].id;
+  }
+
   Future<num> getTheRightAnswer(String question_id) async {
     DocumentSnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance
@@ -195,5 +205,42 @@ class DatabaseMethods {
         .collection('questions')
         .doc(question_id)
         .delete();
+  }
+
+  void addQuestion(String question, String opt1, String opt2, String opt3,
+      String opt4, String? correctAnswer, String mentor_id) {
+    final CollectionReference questionsCollection =
+        FirebaseFirestore.instance.collection('questions');
+    questionsCollection.add({
+      'question': question,
+      'choices': [
+        opt1,
+        opt2,
+        opt3,
+        opt4,
+      ],
+      'correctAnswer': correctAnswer,
+      'mentor_id': mentor_id
+    }).then((value) {
+      print('Question added successfully');
+    }).catchError((error) {
+      print('Failed to add question: $error');
+    });
+  }
+
+  Future<void> addRound(String pin, String mentorID) async {
+    CollectionReference gamesRef =
+        FirebaseFirestore.instance.collection("rounds");
+    await gamesRef.add({"pin": pin, "player_id": [], "mentor_id": mentorID});
+  }
+
+  Future<bool> isThereAnyQuesions(String mentorID) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('questions')
+        .where('mentor_id', isEqualTo: mentorID)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
   }
 }

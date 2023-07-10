@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/welcome_screen/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:puzzlerize/screens/listen/listen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
