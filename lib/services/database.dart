@@ -107,7 +107,7 @@ class DatabaseMethods {
             .collection('questions')
             .doc(question_id)
             .get();
-    return querySnapshot['correctAnswer'];
+    return int.parse(querySnapshot['correctAnswer']);
   }
 
   Future<num> correctAnswers(num writeAnswer) async {
@@ -282,16 +282,16 @@ class DatabaseMethods {
   }
 
   Future<List<QueryDocumentSnapshot>> getWinners(String pin) async {
+    print('iiiiiiiiiii');
+
     CollectionReference allPlayers =
         FirebaseFirestore.instance.collection('players');
-    print('iiiiiiiiiii');
 
     QuerySnapshot allPlayersOrderd = await allPlayers
         .where('pin', isEqualTo: pin)
         .orderBy('score', descending: true)
         .get();
 
-    print(allPlayersOrderd.docs.length);
     return allPlayersOrderd.docs;
   }
 }

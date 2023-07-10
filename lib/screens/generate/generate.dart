@@ -71,11 +71,13 @@ class _GenerateScreenState extends State<Generate> {
                 height: 20,
               ),
               Center(
-                  child: Row(children: [
-                Image(image: AssetImage("assets/images/${pin[0]}.PNG")),
-                Image(image: AssetImage("assets/images/${pin[1]}.PNG")),
-                Image(image: AssetImage("assets/images/${pin[2]}.PNG"))
-              ])),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                    Image(image: AssetImage("assets/images/${pin[0]}.PNG")),
+                    Image(image: AssetImage("assets/images/${pin[1]}.PNG")),
+                    Image(image: AssetImage("assets/images/${pin[2]}.PNG"))
+                  ])),
               SizedBox(
                 height: 39,
               ),
