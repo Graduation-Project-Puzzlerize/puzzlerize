@@ -42,16 +42,6 @@ class _QuestionFormState extends State<QuestionForm> {
           key: _formKey,
           child: Column(
             children: [
-              // TextFormField(
-              //   controller: _gameNameController,
-              //   decoration: InputDecoration(labelText: 'Game Name'),
-              //   validator: (value) {
-              //     if (value?.isEmpty ?? true) {
-              //       return 'Please enter a game name';
-              //     }
-              //     return null;
-              //   },
-              // ),
               TextFormField(
                 controller: _questionController,
                 decoration: InputDecoration(labelText: 'Question'),
@@ -137,7 +127,6 @@ class _QuestionFormState extends State<QuestionForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -161,7 +150,6 @@ class _QuestionFormState extends State<QuestionForm> {
                 },
                 child: Text('Submit'),
               ),
-              SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
                   finishAddingQuestions();

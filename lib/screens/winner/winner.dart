@@ -53,7 +53,8 @@ class _WinnerScreenState extends State<Winner> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage(players[2]['avatar']),
+                      backgroundImage: AssetImage(
+                          players.length > 2 ? players[2]['avatar'] : ""),
                       radius: 50,
                     ),
                     Image.asset(
@@ -69,8 +70,8 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        players.length >= 1
-                            ? players[2]['nickname'] ?? ""
+                        players.length > 2
+                            ? players[2]['nickname']
                             : "", // Check if players list has at least two elements and access 'nickname' //replace this text with player name
                         style: TextStyle(
                           fontSize: 18,
@@ -89,7 +90,7 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        "Score: ${players.isNotEmpty ? players[2]['score'] ?? "" : ""} ", //replace this text with player score // Check if players list has at least two elements and access 'score' "${players[0]['score']} out of 30", // replace this with player score
+                        "Score: ${players.length > 2 ? players[2]['score'] : ""} ", //replace this text with player score // Check if players list has at least two elements and access 'score' "${players[0]['score']} out of 30", // replace this with player score
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -106,7 +107,8 @@ class _WinnerScreenState extends State<Winner> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage(players[0]['avatar']),
+                      backgroundImage: AssetImage(
+                          players.isNotEmpty ? players[0]['avatar'] : ""),
                       radius: 50,
                     ),
                     Image.asset(
@@ -122,7 +124,7 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        players.isNotEmpty ? players[0]['nickname'] ?? "" : "",
+                        players.isNotEmpty ? players[0]['nickname'] : "",
                         //replace this text with player name
                         style: TextStyle(
                           fontSize: 18,
@@ -141,7 +143,7 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        "Score: ${players.isNotEmpty ? players[0]['score'] ?? "" : ""} ", //replace this text with player score
+                        "Score: ${players.isNotEmpty ? players[0]['score'] : ""} ", //replace this text with player score
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -174,8 +176,8 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        players.isNotEmpty
-                            ? players[1]['nickname'] ?? ""
+                        players.length > 1
+                            ? players[1]['nickname']
                             : "", //replace this text with player name
                         style: TextStyle(
                           fontSize: 18,
@@ -194,7 +196,7 @@ class _WinnerScreenState extends State<Winner> {
                       ),
                       child: Center(
                           child: Text(
-                        "Score: ${players.isNotEmpty ? players[1]['score'] ?? "" : ""}", //replace this text with player score
+                        "Score: ${players.length > 1 ? players[1]['score'] : ""}", //replace this text with player score
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),
