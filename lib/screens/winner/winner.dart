@@ -160,7 +160,8 @@ class _WinnerScreenState extends State<Winner> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage(players[1]['avatar']),
+                      backgroundImage: AssetImage(
+                          players.length > 1 ? players[1]['avatar'] : ""),
                       radius: 50,
                     ),
                     Image.asset(
