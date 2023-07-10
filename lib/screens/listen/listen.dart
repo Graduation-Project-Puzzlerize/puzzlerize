@@ -3,8 +3,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:puzzlerize/screens/question/question.dart';
 
 class ListenPage extends StatefulWidget {
-  final String mentor_id;
-  ListenPage({required this.mentor_id});
+  final String mentor_id, pin;
+  ListenPage({required this.mentor_id, required this.pin});
 
   @override
   _ListenPageState createState() => _ListenPageState();
@@ -42,7 +42,8 @@ class _ListenPageState extends State<ListenPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => QuestionScreen(mentor_id: widget.mentor_id)),
+          builder: (context) =>
+              QuestionScreen(mentor_id: widget.mentor_id, pin: widget.pin)),
     );
   }
 

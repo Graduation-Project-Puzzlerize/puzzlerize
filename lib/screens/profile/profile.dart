@@ -64,7 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isGone = true;
       });
 
-      DatabaseMethods().addPalyer(nicknameController.text, avas[randAVA]);
+      DatabaseMethods()
+          .addPlayer(nicknameController.text, avas[randAVA], widget.pin);
       String playerID = await DatabaseMethods()
           .updateRoundInfo(nicknameController.text, widget.pin);
       Navigator.push(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:puzzlerize/services/database.dart';
-import 'package:puzzlerize/screens/answer/answer.dart';
 
 class Options extends StatefulWidget {
   final String pin, player_id;
@@ -20,8 +19,7 @@ class _OptionsScreenState extends State<Options> {
       context,
       MaterialPageRoute(
           builder: (context) =>
-              // Options(pin: widget.pin, player_id: widget.player_id)),            //This is the right page
-              AnswerScreen(question_id: '')), //This is for testing
+              Options(pin: widget.pin, player_id: widget.player_id)),
     );
   }
 

@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:puzzlerize/services/database.dart';
 
-class winner extends StatefulWidget {
+class Winner extends StatefulWidget {
+  final String
+      pin; //It should get it's question_id from the question page from the teacher
+  Winner({required this.pin});
+
   @override
-  _winnerScreenState createState() => _winnerScreenState();
+  _WinnerScreenState createState() => _WinnerScreenState();
 }
 
-class _winnerScreenState extends State<winner> {
+class _WinnerScreenState extends State<Winner> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   List players = [];
 
-  getData() async {
-    CollectionReference playersRef =
-        FirebaseFirestore.instance.collection("players");
-    QuerySnapshot qs =
-        await playersRef.orderBy("score", descending: true).get();
-    List<QueryDocumentSnapshot> listDocs = qs.docs;
-    listDocs.forEach((element) {
-      print(element.data());
-      print("####################");
-    });
+  getWinners() async {
+    List<QueryDocumentSnapshot> listDocs =
+        await DatabaseMethods().getWinners(widget.pin);
+
     setState(() {
       players = listDocs.map((doc) => doc.data()).toList();
     });
@@ -27,7 +26,7 @@ class _winnerScreenState extends State<winner> {
 
   @override
   void initState() {
-    getData();
+    getWinners();
     super.initState();
   }
 
@@ -37,15 +36,13 @@ class _winnerScreenState extends State<winner> {
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            SizedBox(
-              height: 80,
+            Image(
+              image: AssetImage('assets/images/logo.png'),
+              fit: BoxFit.fill,
             ),
-            Text(
-              'Game Result',
-              style: TextStyle(
-                  fontSize: 29,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Times New Roman'),
+            Image(
+              image: AssetImage('assets/images/congrats.gif'),
+              fit: BoxFit.fill,
             ),
             Row(
               children: <Widget>[
@@ -56,12 +53,12 @@ class _winnerScreenState extends State<winner> {
                     children: [
                       Image.asset(
                         "assets/images/trophy(7).png",
-                        height: 120,
-                        width: 100,
+                        height: 50,
+                        width: 50,
                       ),
                       Container(
                         height: 50,
-                        width: 120,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 131, 3, 151),
                         ),
@@ -76,12 +73,12 @@ class _winnerScreenState extends State<winner> {
                           ),
                         )),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(146, 134, 2, 155),
                         ),
@@ -104,12 +101,12 @@ class _winnerScreenState extends State<winner> {
                     children: [
                       Image.asset(
                         "assets/images/trophy(6).png",
-                        height: 130,
-                        width: 120,
+                        height: 50,
+                        width: 50,
                       ),
                       Container(
                         height: 50,
-                        width: 120,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 131, 3, 151),
                         ),
@@ -120,25 +117,25 @@ class _winnerScreenState extends State<winner> {
                               : "",
                           //replace this text with player name
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 10,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                         )),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       Container(
-                        height: 170,
-                        width: 120,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(146, 134, 2, 155),
                         ),
                         child: Center(
                             child: Text(
-                          "${players.isNotEmpty ? players[0]['score'] ?? "" : ""} out of 30", //replace this text with player score
+                          "${players.isNotEmpty ? players[0]['score'] : ""} out of 30", //replace this text with player score
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 10,
                             color: Color.fromARGB(255, 255, 255, 255),
                           ),
                         )),
@@ -153,12 +150,12 @@ class _winnerScreenState extends State<winner> {
                     children: [
                       Image.asset(
                         "assets/images/trophy(5).png",
-                        height: 120,
-                        width: 100,
+                        height: 50,
+                        width: 50,
                       ),
                       Container(
                         height: 50,
-                        width: 120,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 131, 3, 151),
                         ),
@@ -173,12 +170,12 @@ class _winnerScreenState extends State<winner> {
                           ),
                         )),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       Container(
-                        height: 120,
-                        width: 120,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(146, 134, 2, 155),
                         ),

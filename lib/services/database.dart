@@ -10,10 +10,10 @@ class DatabaseMethods {
     return result.docs.isNotEmpty;
   }
 
-  Future<void> addPalyer(String nickname, String avatar) {
+  Future<void> addPlayer(String nickname, String avatar, String pin) {
     return FirebaseFirestore.instance
         .collection('players')
-        .add({'nickname': nickname, 'score': 0, 'avatar': avatar, 'winrate': 0})
+        .add({'nickname': nickname, 'score': 0, 'avatar': avatar, 'pin': pin})
         .then((value) => print("Player added"))
         .catchError((error) => print("Failed to add player: $error"));
   }
@@ -107,7 +107,7 @@ class DatabaseMethods {
             .collection('questions')
             .doc(question_id)
             .get();
-    return querySnapshot['correct_answer'];
+    return querySnapshot['correctAnswer'];
   }
 
   Future<num> correctAnswers(num writeAnswer) async {
@@ -137,23 +137,23 @@ class DatabaseMethods {
     return querySnapshot.docs.length;
   }
 
-  Future<num> wrongAnswers(num writeAnswer) async {
+  Future<num> wrongAnswers(num wrongAnswer, String mentor_id) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
         .instance
         .collection('responses')
-        .where('optionNum', isNotEqualTo: writeAnswer)
+        .where('optionNum', isNotEqualTo: wrongAnswer)
         .get();
-
     return querySnapshot.docs.length;
   }
 
-  Future<String> getQuestion(String mentor_id) async {
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getQuestions(
+      String mentor_id) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
         .instance
         .collection('questions')
         .where('mentor_id', isEqualTo: mentor_id)
         .get();
-    return querySnapshot.docs[0]['question'];
+    return querySnapshot.docs;
   }
 
   Future<String> getOpt1(String mentor_id) async {
@@ -162,7 +162,7 @@ class DatabaseMethods {
         .collection('questions')
         .where('mentor_id', isEqualTo: mentor_id)
         .get();
-    return querySnapshot.docs[0]['choices'][0];
+    return querySnapshot.docs[0]['options'][0];
   }
 
   Future<String> getOpt2(String mentor_id) async {
@@ -171,7 +171,7 @@ class DatabaseMethods {
         .collection('questions')
         .where('mentor_id', isEqualTo: mentor_id)
         .get();
-    return querySnapshot.docs[0]['choices'][1];
+    return querySnapshot.docs[0]['options'][1];
   }
 
   Future<String> getOpt3(String mentor_id) async {
@@ -180,7 +180,7 @@ class DatabaseMethods {
         .collection('questions')
         .where('mentor_id', isEqualTo: mentor_id)
         .get();
-    return querySnapshot.docs[0]['choices'][2];
+    return querySnapshot.docs[0]['options'][2];
   }
 
   Future<String> getOpt4(String mentor_id) async {
@@ -189,7 +189,7 @@ class DatabaseMethods {
         .collection('questions')
         .where('mentor_id', isEqualTo: mentor_id)
         .get();
-    return querySnapshot.docs[0]['choices'][3];
+    return querySnapshot.docs[0]['options'][3];
   }
 
   Future<void> deleteQ(String mentor_id) async {
@@ -213,7 +213,7 @@ class DatabaseMethods {
         FirebaseFirestore.instance.collection('questions');
     questionsCollection.add({
       'question': question,
-      'choices': [
+      'options': [
         opt1,
         opt2,
         opt3,
@@ -255,8 +255,6 @@ class DatabaseMethods {
 
     var players = <Map>[];
     for (int i = 0; i < allPlayers.docs.length; i++) {
-      print(allPlayers.docs[i].id);
-
       if (round.docs[0]['player_id'].contains(allPlayers.docs[i].id)) {
         players.add({
           'nickname': allPlayers.docs[i]['nickname'],
@@ -264,7 +262,37 @@ class DatabaseMethods {
         });
       }
     }
-    print(round.docs[0]['player_id']);
     return players;
+  }
+
+  Future<void> deleteResponses(String pin) async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('responses')
+        .where('pin', isEqualTo: pin)
+        .get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      String response_id = querySnapshot.docs[i].id;
+
+      FirebaseFirestore.instance
+          .collection('responses')
+          .doc(response_id)
+          .delete();
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot>> getWinners(String pin) async {
+    CollectionReference allPlayers =
+        FirebaseFirestore.instance.collection('players');
+
+    QuerySnapshot allPlayersOrderd = await allPlayers
+        .where('pin', isEqualTo: pin)
+        .orderBy('score', descending: true)
+        .get();
+
+    print('iiiiiiiiiii');
+
+    print(allPlayersOrderd.docs.length);
+    return allPlayersOrderd.docs;
   }
 }

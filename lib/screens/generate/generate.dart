@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:puzzlerize/services/database.dart';
 import 'package:puzzlerize/screens/meet/meet.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class Generate extends StatefulWidget {
   final String mentor_id;
@@ -15,13 +16,14 @@ String pin = "";
 
 class _GenerateScreenState extends State<Generate> {
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  final FlutterTts tts = FlutterTts();
 
   @override
   void initState() {
     pin = (100 + Random().nextInt((999 + 1) - 100)).toString();
-    print(pin[0]);
     DatabaseMethods().addRound(pin, widget.mentor_id);
     super.initState();
+    tts.speak(pin);
   }
 
   void navigateToMeetScreen() async {
@@ -93,5 +95,20 @@ class _GenerateScreenState extends State<Generate> {
         ),
       ),
     );
+  }
+}
+
+class TextToSpeech extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
+
+  speak(String pin) async {
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1); //0.5 to 1.5
+    await flutterTts.speak(pin);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

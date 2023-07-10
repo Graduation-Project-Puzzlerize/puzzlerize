@@ -21,7 +21,8 @@ class _MeetScreenState extends State<Meet> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ListenPage(mentor_id: widget.mentor_id)),
+          builder: (context) =>
+              ListenPage(mentor_id: widget.mentor_id, pin: widget.pin)),
     );
   }
 
