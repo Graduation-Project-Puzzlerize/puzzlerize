@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:puzzlerize/screens/listen/listen.dart';
 
-class meet extends StatelessWidget {
-  const meet({Key? key}) : super(key: key);
+class Meet extends StatefulWidget {
+  final String mentor_id, pin;
+  final List players;
+  Meet({required this.mentor_id, required this.pin, required this.players});
+  @override
+  _MeetScreenState createState() => _MeetScreenState();
+}
+
+class _MeetScreenState extends State<Meet> {
+  GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void navigateToListenScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              ListenPage(mentor_id: widget.mentor_id, pin: widget.pin)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,91 +38,38 @@ class meet extends StatelessWidget {
               Column(
                 children: [
                   Image.asset(
-                    "assets/images/meet-removebg-preview.PNG",
+                    "assets/images/meet-removebg-preview.png",
                     width: 1600,
                   ),
-                  //const SizedBox(height: 50),
                   Center(
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            const SizedBox(width: 20.0),
-                            Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    "assets/images/face.png",
+                        const SizedBox(width: 20.0),
+                        for (var player in widget.players)
+                          Row(
+                            children: <Widget>[
+                              const SizedBox(width: 20.0),
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill, //player['avatar']
+                                    //image: AssetImage("assets/images/ava.png"),
+                                    image: AssetImage(
+                                      player['avatar'],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 40.0),
-                            Text(
-                              "Avery Davis",
-                              textScaleFactor: 1.5,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            const SizedBox(width: 20.0),
-                            Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    "assets/images/face2.png",
-                                  ),
-                                ),
+                              const SizedBox(width: 40.0),
+                              Text(
+                                player['nickname'],
+                                textScaleFactor: 1.5,
                               ),
-                            ),
-
-                            const SizedBox(width: 40.0),
-                            Text(
-                              "Howard ong",
-                              textScaleFactor: 1.5,
-                            ),
-                            // Add your widgets for the second row here
-                          ],
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            const SizedBox(width: 20.0),
-                            Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    "assets/images/download.jpg",
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 40.0),
-                            Text(
-                              "Olivia Wilson",
-                              textScaleFactor: 1.5,
-                            ),
-                            // Add your widgets for the second row here
-                          ],
-                        ),
+                            ],
+                          ),
                         SizedBox(
                           height: 65,
                         ),
@@ -108,7 +78,6 @@ class meet extends StatelessWidget {
                             "START GAME",
                             style: TextStyle(
                               fontSize: 22,
-                              //  fontFamily: 'Courier New',
                               color: Color.fromARGB(255, 10, 64, 111),
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.0,
@@ -117,19 +86,23 @@ class meet extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 203, 227, 243)),
+                              Color.fromARGB(255, 203, 227, 243),
+                            ),
                             padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    horizontal: 25, vertical: 20)),
+                              EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 20),
+                            ),
                             shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              side: BorderSide(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: BorderSide(
                                   color: Color.fromARGB(255, 10, 64, 111),
-                                  width: 3.0),
-                            )),
+                                  width: 3.0,
+                                ),
+                              ),
+                            ),
                           ),
-                          onPressed: () {},
+                          onPressed: navigateToListenScreen,
                         ),
                       ],
                     ),

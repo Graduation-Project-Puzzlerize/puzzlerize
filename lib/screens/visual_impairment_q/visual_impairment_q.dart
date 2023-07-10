@@ -25,7 +25,6 @@ class VisualImpairmentQ extends StatefulWidget {
 
 class _VisualImpairmentQState extends State<VisualImpairmentQ> {
   late stt.SpeechToText _speech;
-  bool _isListening = false;
   String _text = '';
 
   @override
@@ -106,7 +105,6 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
       onError: (val) => print('onError: $val'),
     );
     if (available) {
-      setState(() => _isListening = true);
       _speech.listen(
         onResult: (val) => setState(() {
           _text = val.recognizedWords;
@@ -126,7 +124,6 @@ class _VisualImpairmentQState extends State<VisualImpairmentQ> {
         }),
       );
     } else {
-      setState(() => _isListening = false);
       _speech.stop();
     }
   }

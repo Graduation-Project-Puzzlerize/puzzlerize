@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/visual_impairment_q/visual_impairment_q.dart';
 import 'package:puzzlerize/screens/profile/profile.dart';
 import 'package:puzzlerize/services/database.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class PINScreen extends StatefulWidget {
   @override
@@ -9,12 +11,37 @@ class PINScreen extends StatefulWidget {
 }
 
 class _PINScreenState extends State<PINScreen> {
+  late stt.SpeechToText _speech;
+
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   String pin = '';
   bool pinIsValidVisi = false;
+  bool isGone = false;
   TextEditingController pinController = TextEditingController();
+  final TextToSpeech tts = new TextToSpeech();
+
+  @override
+  void initState() {
+    super.initState();
+    tts.enterThePINSpeak();
+    _speech = stt.SpeechToText();
+
+    Future.delayed(Duration(seconds: 5), () {
+      if (!isGone) {
+        listen();
+      }
+    });
+    Future.delayed(Duration(seconds: 10), () {
+      if (!isGone) {
+        navigateToProfileScreen();
+      }
+    });
+  }
 
   void navigateToVisualImpairmentQScreen() {
+    setState(() {
+      isGone = true;
+    });
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => VisualImpairmentQ()),
@@ -27,18 +54,25 @@ class _PINScreenState extends State<PINScreen> {
         pinIsValidVisi = false;
       },
     );
-    if (await DatabaseMethods().isPINValid(pinController.text)) {
+    if (await DatabaseMethods()
+        .isPINValid(pinController.text.replaceAll(' ', ''))) {
+      setState(() {
+        isGone = true;
+      });
+      _speech.stop();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen(pin: pinController.text)),
       );
     } else {
-      print("helllllllllllllllo");
       setState(
         () {
           pinIsValidVisi = true;
         },
       );
+      tts.pinInvalidSpeak(context);
+      listen();
     }
   }
 
@@ -76,7 +110,6 @@ class _PINScreenState extends State<PINScreen> {
                       Container(
                           child: TextField(
                             controller: pinController,
-                            textInputAction: TextInputAction.search,
                             onSubmitted: (value) {
                               navigateToProfileScreen();
                             },
@@ -129,125 +162,50 @@ class _PINScreenState extends State<PINScreen> {
           )),
     );
   }
+
+  void listen() async {
+    bool available = await _speech.initialize(
+      onStatus: (val) => print('onStatus: $val'),
+      onError: (val) => print('onError: $val'),
+    );
+    if (available) {
+      _speech.listen(
+        onResult: (val) => setState(() {
+          pin = val.recognizedWords;
+          pinController.text = pin;
+          print(pin);
+        }),
+      );
+    } else {
+      _speech.stop();
+    }
+  }
 }
 
+class TextToSpeech extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
 
+  enterThePINSpeak() async {
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1); //0.5 to 1.5
+    await flutterTts.speak("ُEnter the P I N");
+  }
 
+  pinInvalidSpeak(BuildContext context) async {
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1); //0.5 to 1.5
+    await flutterTts.speak("The P I N is invalid, try again");
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => PINScreen()),
+        (route) => false, // Remove all existing routes from the stack
+      );
+    });
+  }
 
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-
-// class pin extends StatelessWidget {
-//   const pin({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//     child: Scaffold(
-//       body: Container(
-//         width: double.infinity,
-//         child:Stack(children:[
-        
-        
-//         Container(
-//           padding: EdgeInsets.all(22),
-//           alignment: Alignment.topCenter,
-//           child:Image.asset(
-//                       "assets/images/Capture2.PNG",
-//                       width: 250,
-//                       height: 200,
-//                     ),
-//         ),
-        
-//          Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             SizedBox(height: 170,),
-//             Padding(
-//               padding: EdgeInsets.all(25),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   SizedBox(height: 10,),
-                  
-//                 ],
-//               ),
-//             ),
-//             SizedBox(height: 20),
-//             Expanded(
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   color :Color.fromRGBO(190, 141, 218, 0.608),
-                  
-//                   borderRadius: BorderRadius.only(topLeft: Radius.circular(45), topRight: Radius.circular(60))
-//                 ),
-//                 child: SingleChildScrollView(
-//                   child: Padding(
-//                     padding: EdgeInsets.all(30),
-//                     child: Column(
-//                       children: <Widget>[
-//                         SizedBox(height: 60,),
-//                         Text( " Enter the PIN Number ",style:
-//                                TextStyle(fontSize: 28, fontWeight: FontWeight.w600 ,color: Colors.white),
-//                              ),
-                             
-//                         Container(
-                          
-//                           child: Column(
-//                             children: <Widget>[
-//                               SizedBox(height: 70,), 
-//                               Container(
-//                                 padding: EdgeInsets.all(10),
-//                                 //color:BorderRadius.circular(100),
-
-//                                 decoration: BoxDecoration(
-//                                  borderRadius: BorderRadius.circular(10),
-//                                   color: Color.fromARGB(255, 212, 208, 214),
-
-//                                 ),
-//                                 child:Container(
-//                                   width: 250,
-                                  
-//                                 child:
-//                                  TextField(
-//                                   decoration: InputDecoration(
-//                                     hintText: "PIN",
-                                  
-//                                   hintStyle: TextStyle(fontSize: 20 ,color: Colors.white),
-                                  
-//                                     contentPadding: EdgeInsets.symmetric(vertical: 8),
-
-//                                   ),
-//                                 ),),
-//                               ),                          
-//                              Container(
-//                                 padding: EdgeInsets.all(20),
-
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         SizedBox(height: 60,),
-//                          Text("Are you ready to Play?", style: TextStyle(color: Colors.white,fontSize: 16),),
-                        
-                        
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//         ]),
-//       ),
-//     ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
