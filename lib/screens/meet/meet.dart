@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:puzzlerize/screens/listen/listen.dart';
-import 'package:puzzlerize/services/database.dart';
 
 class Meet extends StatefulWidget {
   final String mentor_id, pin;
